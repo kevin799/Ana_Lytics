@@ -12,4 +12,3 @@ def index(request):
     insert = ExampleModel(description="Funfou essa bagaca!!!!",description2 = 'karai man genial')
     insert.save()
     cluster.shutdown()
-    #return HttpResponse("Hello world")

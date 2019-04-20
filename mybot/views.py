@@ -63,6 +63,7 @@ class MyBotView(generic.View):
                     try:
                         post_facebook_message(message['sender']['id'], message['message']['text'])
                     except:
+                        print('exept')
                         return HttpResponse()
                 if 'postback' in message:
                     # pprint(message)
