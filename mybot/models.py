@@ -22,3 +22,14 @@ class teste2(Model):
     read_repair_chance = 0.05 # optional - defaults to 0.1
     teste_id = columns.UUID(primary_key=True, default=uuid.uuid4)
     description = columns.Text(required=False)
+
+class Person(Model):
+    id = columns.UUID(primary_key=True)
+    first_name  = columns.Text()
+    last_name = columns.Text()
+
+class CfConversationFlow(Model):
+    read_repair_chance = 0.05
+    cf_id = columns.UUID(primary_key=True, default=uuid.uuid4)
+    cf_id_work = columns.Text()
+    cf_json = columns.Text()

@@ -15,7 +15,7 @@ from cassandra.cqlengine.management import sync_table
 from cassandra.cluster import Cluster
 from mybot.models import ExampleModel
 from django.http import HttpResponse
-
+from mybot.database_access import *
 
 '''
 def post_facebook_message(fbid, recevied_message):
@@ -60,7 +60,9 @@ class MyBotView(generic.View):
                 if 'message' in message:
                     # pprint(message)
                     print('message')
+
                     try:
+                        save_conversation_flow(message['sender']['id'],str(incoming_message))
                         post_facebook_message(message['sender']['id'], message['message']['text'])
                     except:
                         print('exept')
@@ -69,6 +71,7 @@ class MyBotView(generic.View):
                     # pprint(message)
                     print('postback')
                     try:
+
                         post_facebook_message(message['sender']['id'], message['postback']['payload'])
                     except:
                         return HttpResponse()
