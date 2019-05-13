@@ -36,6 +36,7 @@ def index(request):
     session.set_keyspace('bot')
     insert = ExampleModel(description="Funfou essa bagaca!!!!",description2 = 'karai man genial')
     insert.save()
+    cadastro_usuario(123456789,'José','ATEU','Email@ateu.com')
     cluster.shutdown()
     return HttpResponse("Hello world")
 
@@ -62,7 +63,8 @@ class MyBotView(generic.View):
                     print('message')
 
                     try:
-                        save_conversation_flow(message['sender']['id'],str(incoming_message))
+
+
                         post_facebook_message(message['sender']['id'], message['message']['text'])
                     except:
                         print('exept')
@@ -75,5 +77,5 @@ class MyBotView(generic.View):
                         post_facebook_message(message['sender']['id'], message['postback']['payload'])
                     except:
                         return HttpResponse()
-
+        save_conversation_flow(message['sender']['id'], str(incoming_message))
         return HttpResponse()

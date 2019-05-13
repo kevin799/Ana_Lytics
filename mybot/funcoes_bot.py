@@ -9,3 +9,4 @@ def post_facebook_message(fbid, recevied_message):
     if recevied_message == "teste":
         fb.text_message("deu bom")
         return 0
+
