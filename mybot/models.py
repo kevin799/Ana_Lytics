@@ -2,7 +2,7 @@
 import uuid
 from cassandra.cqlengine import columns
 from cassandra.cqlengine.models import Model
-
+from django.db import models
 '''
 Antes de rodar a sincronização do banco de dados Cassandra deve se rodar seguinte comando:
 pip install django-cassandra-engine
@@ -14,9 +14,12 @@ Onde para cada mudança ocorrida no codigo basta rodar o seguinte comando para a
 tabelas contidas no banco: python manage.py sync_cassandra
 
 Site referencia: https://www.slothparadise.com/how-to-install-and-use-cassandra-on-django/
+--------------------------------------------------------------------------------------------
+https://www.codigofluente.com.br/09-criando-e-ativando-models-no-django/
+Reeferencia mysql
 
 '''
-
+'''---------------------------------CASSANDRA------------------------------------------------------'''
 class ExampleModel(Model):
     read_repair_chance = 0.05 # optional - defaults to 0.1
     example_id = columns.UUID(primary_key=True, default=uuid.uuid4)
@@ -47,3 +50,52 @@ class UsuUSuario(Model):
     usu_apelido = columns.Text()
     usu_email = columns.Text()
     usu_ultima_interacao = columns.DateTime()
+
+class testeUsuUSuario(Model):
+    read_repair_chance = 0.05
+    #usu_id = columns.UUID(primary_key=True, default=uuid.uuid4)
+    usu_id_workplace= columns.Integer(primary_key=True)
+    usu_nome = columns.Text()
+    usu_apelido = columns.Text()
+    usu_email = columns.Text()
+    usu_ultima_interacao = columns.DateTime()
+'''------------------------------------MYSQL---------------------------------------------------------------------------'''
+'''
+Obs: Rodar o comando abaixo caso faça alguma modificação na estrutura da tabela
+python manage.py makemigrations mybot
+*Depois de rodar o comando acima rodar: python manage.py migrate
+'''
+class Question(models.Model):
+    question_text = models.CharField(max_length=200)
+    pub_date = models.DateTimeField('date published')
+
+
+class Choice(models.Model):
+    question = models.ForeignKey(Question, on_delete=models.CASCADE)
+    choice_text = models.CharField(max_length=200)
+    votes = models.IntegerField(default=0)
+    votes2 = models.IntegerField(default=0)
+
+class Choice_aa(models.Model):
+    question = models.ForeignKey(Question, on_delete=models.CASCADE)
+    choice_text = models.CharField(max_length=200)
+    votes = models.IntegerField(default=0)
+
+class Usuario(models.Model):
+    id = models.BigIntegerField(primary_key=True)
+    nome = models.CharField(max_length=150,null=True)
+    email = models.CharField(max_length=200,null=True)
+
+
+class Area(models.Model):
+    setor = models.CharField(max_length=100)
+
+
+class Role(models.Model):
+    role = models.CharField(max_length=100)
+
+class Colaboradores(models.Model):
+    nome = models.CharField(max_length=200,null=True)
+    email = models.CharField(max_length=200)
+    id_area = models.ForeignKey(Area, on_delete=models.CASCADE)
+    id_role = models.ForeignKey(Role, on_delete=models.CASCADE,default=1)

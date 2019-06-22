@@ -61,11 +61,14 @@ class MyBotView(generic.View):
                 if 'message' in message:
                     # pprint(message)
                     print('message')
+                    print(existecia_usuario(1234))
+                    cadastro_usuario(12345,'kevin.hizatsuki@dmcard.com.br')
 
                     try:
 
 
                         post_facebook_message(message['sender']['id'], message['message']['text'])
+
                     except:
                         print('exept')
                         return HttpResponse()

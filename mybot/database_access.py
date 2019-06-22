@@ -4,6 +4,7 @@ from cassandra.cluster import Cluster
 from mybot.models import *
 from django.http import HttpResponse
 import datetime
+from django.core.exceptions import ObjectDoesNotExist
 
 '''
 Comandos para usar dentro do Cassandra
@@ -108,3 +109,32 @@ for user_row in rows:
 #print(count_usuario(123))
 #print(cadastro_usuario(123,None,None,None))
 #print("update usu_usuario set usu_nome = '%s' where usu_id_workplace = %s"%('teste',123))
+'''************************************MYSQL*********************************************************'''
+
+def existecia_usuario(id):
+    try:
+        return (Usuario.objects.get(id=id)!=None)
+    except ObjectDoesNotExist:
+        return False
+
+def cadastro_usuario(id,texto):
+    if(existecia_usuario(id)):
+        usuario = Usuario.objects.get(id=id)
+        if(usuario.email== None):
+
+            if('@' in texto):
+
+                try:
+                    colaborador = Colaboradores.objects.get(email = texto)
+                    usuario.nome = colaborador.nome
+                    usuario.email = colaborador.email
+                    usuario.save()
+                    print('entrou no save do usuario')
+                    return
+                except ObjectDoesNotExist:
+                    usuario.email = texto
+                    usuario.save()
+                    print('entrou na excessao')
+                    return
+
+

@@ -78,6 +78,44 @@ WSGI_APPLICATION = 'Ana_Lytics.wsgi.application'
 # https://docs.djangoproject.com/en/1.10/ref/settings/#databases
 
 DATABASES = {
+'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'bot',
+        'USER': 'bot',
+        'PASSWORD': 'bot123',
+        'HOST': 'localhost',
+    #IMPORTANT!!
+    'OPTIONS': {
+             "init_command": "SET foreign_key_checks = 0;",
+        },
+    },
+'cassandra':{
+        'ENGINE': 'django_cassandra_engine',
+        'NAME': 'bot',
+        #'TEST_NAME': 'bot',
+        'HOST': '127.0.0.1',
+        'PORT': '9042',
+        'OPTIONS': {
+            'replication': {
+                'strategy_class': 'SimpleStrategy',
+                'replication_factor': 1
+            },
+                'connection': {
+                    'consistency': ConsistencyLevel.LOCAL_ONE,
+                    'retry_connect': True
+                    # + All connection options for cassandra.cluster.Cluster()
+                },
+                'session': {
+                    'default_timeout': 10,
+                    'default_fetch_size': 10000
+                    # + All options for cassandra.cluster.Session()
+                }
+        }
+    }
+}
+
+'''
+DATABASES = {
     'default': {
         'ENGINE': 'django_cassandra_engine',
         'NAME': 'bot',
@@ -102,6 +140,8 @@ DATABASES = {
         }
     }
 }
+'''
+
 '''
 DATABASES = {
     'default': {
