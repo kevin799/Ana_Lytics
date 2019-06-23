@@ -115,7 +115,21 @@ def existecia_usuario(id):
     try:
         return (Usuario.objects.get(id=id)!=None)
     except ObjectDoesNotExist:
+        insert = Usuario(id= id)
+        insert.save()
+        return (Usuario.objects.get(id=id)!=None)
+
+def primeiro_acesso(id):
+    try:
+        usuario = Usuario.objects.get(id=id)
+        if(usuario.status_acesso == None):
+            usuario.status_acesso=0
+            usuario.save()
+            return True
         return False
+    except ObjectDoesNotExist:
+        return
+
 
 def cadastro_usuario(id,texto):
     if(existecia_usuario(id)):
@@ -129,12 +143,14 @@ def cadastro_usuario(id,texto):
                     usuario.nome = colaborador.nome
                     usuario.email = colaborador.email
                     usuario.save()
-                    print('entrou no save do usuario')
-                    return
+                    return 1
                 except ObjectDoesNotExist:
                     usuario.email = texto
                     usuario.save()
-                    print('entrou na excessao')
-                    return
-
-
+                    return 2
+            return -1
+        if(usuario.nome== None):
+            usuario.nome=texto
+            usuario.save()
+            return 3
+        return 4

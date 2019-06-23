@@ -85,6 +85,7 @@ class Usuario(models.Model):
     id = models.BigIntegerField(primary_key=True)
     nome = models.CharField(max_length=150,null=True)
     email = models.CharField(max_length=200,null=True)
+    status_acesso = models.IntegerField(null=True)
 
 
 class Area(models.Model):

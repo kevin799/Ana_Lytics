@@ -61,13 +61,16 @@ class MyBotView(generic.View):
                 if 'message' in message:
                     # pprint(message)
                     print('message')
-                    print(existecia_usuario(1234))
-                    cadastro_usuario(12345,'kevin.hizatsuki@dmcard.com.br')
+                    print(existecia_usuario(123456))
+                    #cadastro_usuario(12345,'kevin.hizatsuki@dmcard.com.br')
+                    print(existecia_usuario(message['sender']['id']))
+                    cadastro_usuario(123456, 'Seu Boss')
+                    print(primeiro_acesso(message['sender']['id']))
 
                     try:
 
-
-                        post_facebook_message(message['sender']['id'], message['message']['text'])
+                        if(existecia_usuario(message['sender']['id'])):
+                            post_facebook_message(message['sender']['id'], message['message']['text'])
 
                     except:
                         print('exept')
