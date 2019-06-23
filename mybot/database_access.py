@@ -110,6 +110,19 @@ for user_row in rows:
 #print(cadastro_usuario(123,None,None,None))
 #print("update usu_usuario set usu_nome = '%s' where usu_id_workplace = %s"%('teste',123))
 '''************************************MYSQL*********************************************************'''
+'''
+
+Comandos para trabalhar ORM contidas dentro do MySql:
+https://medium.com/@beatrizuezu/visualizando-query-sql-a-partir-do-orm-django-5771370a9c55
+
+Explicação da excessão da não existencia de um objeto:
+Explicação: https://docs.djangoproject.com/en/2.2/ref/exceptions/#django.core.exceptions.ObjectDoesNotExist
+Implementação: 
+https://stackoverflow.com/questions/16181188/django-doesnotexist
+https://www.programcreek.com/python/example/52499/django.core.exceptions.ObjectDoesNotExist
+
+'''
+
 
 def existecia_usuario(id):
     try:

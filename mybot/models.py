@@ -61,9 +61,14 @@ class testeUsuUSuario(Model):
     usu_ultima_interacao = columns.DateTime()
 '''------------------------------------MYSQL---------------------------------------------------------------------------'''
 '''
+Formato das colunas :
+https://www.webforefront.com/django/modeldatatypesandvalidation.html
+
 Obs: Rodar o comando abaixo caso faça alguma modificação na estrutura da tabela
 python manage.py makemigrations mybot
 *Depois de rodar o comando acima rodar: python manage.py migrate
+
+
 '''
 class Question(models.Model):
     question_text = models.CharField(max_length=200)

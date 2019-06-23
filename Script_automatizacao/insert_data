@@ -1,0 +1,2 @@
+#!/bin/bash
+python /home/kevin/Documentos/Projetos/Ana_Lytics/Script_automatizacao/Teste_conexao_cassandra.py
