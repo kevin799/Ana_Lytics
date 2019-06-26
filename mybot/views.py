@@ -36,7 +36,7 @@ def index(request):
     session.set_keyspace('bot')
     insert = ExampleModel(description="Funfou essa bagaca!!!!",description2 = 'karai man genial')
     insert.save()
-    cadastro_usuario(123456789,'José','ATEU','Email@ateu.com')
+    cadastro_usuario_cassandra(123456789,'José','ATEU','Email@ateu.com')
     cluster.shutdown()
     return HttpResponse("Hello world")
 
@@ -70,7 +70,7 @@ class MyBotView(generic.View):
                     try:
 
                         if(existecia_usuario(message['sender']['id'])):
-                            post_facebook_message(message['sender']['id'], message['message']['text'])
+                            cadastro(message['sender']['id'], message['message']['text'])
 
                     except:
                         print('exept')
@@ -80,7 +80,7 @@ class MyBotView(generic.View):
                     print('postback')
                     try:
 
-                        post_facebook_message(message['sender']['id'], message['postback']['payload'])
+                        cadastro(message['sender']['id'], message['postback']['payload'])
                     except:
                         return HttpResponse()
         save_conversation_flow(message['sender']['id'], str(incoming_message))

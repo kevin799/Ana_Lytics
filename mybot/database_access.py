@@ -70,7 +70,7 @@ O cadastro do Usuario somente vai funcionar caso execute o projeto inteiro do Dj
 de Model do Django.
 '''
 
-def cadastro_usuario(usu_id,usu_nome,usu_apelido,usu_email):
+def cadastro_usuario_cassandra(usu_id,usu_nome,usu_apelido,usu_email):
     cluster = Cluster(['127.0.0.1'])
     session = cluster.connect()
     session.set_keyspace('bot')
