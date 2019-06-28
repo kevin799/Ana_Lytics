@@ -128,7 +128,7 @@ def existecia_usuario(id):
     try:
         return (Usuario.objects.get(id=id)!=None)
     except ObjectDoesNotExist:
-        insert = Usuario(id= id)
+        insert = Usuario(id= id,status_acesso=1)
         insert.save()
         return (Usuario.objects.get(id=id)!=None)
 

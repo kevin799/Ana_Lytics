@@ -66,7 +66,8 @@ https://www.webforefront.com/django/modeldatatypesandvalidation.html
 
 Obs: Rodar o comando abaixo caso faça alguma modificação na estrutura da tabela
 python manage.py makemigrations mybot
-*Depois de rodar o comando acima rodar: python manage.py migrate
+*Depois de rodar o comando acima rodar: 
+python manage.py migrate
 
 
 '''
@@ -105,3 +106,15 @@ class Colaboradores(models.Model):
     email = models.CharField(max_length=200)
     id_area = models.ForeignKey(Area, on_delete=models.CASCADE)
     id_role = models.ForeignKey(Role, on_delete=models.CASCADE,default=1)
+
+class Funcionalidades_bot(models.Model):
+    nome = models.CharField(max_length=200)
+    role = models.ForeignKey(Role,on_delete=models.CASCADE)
+    status = models.IntegerField(default=0)
+
+class Usuario_Funcao(models.Model):
+    id_usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE)
+    id_funcionalidade = models.ForeignKey(Funcionalidades_bot, on_delete=models.CASCADE)
+    permissao = models.IntegerField(default=1)
+    status = models.IntegerField(default=0)
+
