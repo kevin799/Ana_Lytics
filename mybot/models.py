@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 # example/models.py
 import uuid
 from cassandra.cqlengine import columns

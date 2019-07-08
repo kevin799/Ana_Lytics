@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from cassandra.cqlengine import connection
 from cassandra.cqlengine.management import sync_table
 from cassandra.cluster import Cluster
@@ -128,14 +129,14 @@ def existecia_usuario(id):
     try:
         return (Usuario.objects.get(id=id)!=None)
     except ObjectDoesNotExist:
-        insert = Usuario(id= id,status_acesso=1)
+        insert = Usuario(id= id,status_acesso=2)
         insert.save()
         return (Usuario.objects.get(id=id)!=None)
 
 def primeiro_acesso(id):
     try:
         usuario = Usuario.objects.get(id=id)
-        if(usuario.status_acesso == None):
+        if(usuario.status_acesso == 2):
             usuario.status_acesso=0
             usuario.save()
             return True

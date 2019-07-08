@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import json
 import requests
 from mybot.fb_setting import *

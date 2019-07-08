@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from mybot.Model.BotDelivery import BotDelivery
 from datetime import datetime
 '''a = BotDelivery(dbd_id='1',dbd_bot_id='2',dbd_bot_time='3',dbd_messaging_sender_id='4',

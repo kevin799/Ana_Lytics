@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from mybot.messenger_api import *
 from mybot.database_access import *
 from mybot.models import *

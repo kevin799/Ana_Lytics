@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """
 Django settings for Ana_Lytics project.
 
@@ -82,7 +83,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'bot',
         'USER': 'bot',
-        'PASSWORD': 'bot123',
+        'PASSWORD': '#Bot123',
         'HOST': 'localhost',
     #IMPORTANT!!
     'OPTIONS': {

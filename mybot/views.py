@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import random
 import os, sys
 from django.views import generic
@@ -64,7 +65,7 @@ class MyBotView(generic.View):
 
                     #cadastro_usuario(12345,'kevin.hizatsuki@dmcard.com.br')
 
-                    print(primeiro_acesso(message['sender']['id']))
+
 
                     try:
 
