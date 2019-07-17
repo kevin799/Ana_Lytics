@@ -168,3 +168,20 @@ def cadastro_usuario(id,texto):
             usuario.save()
             return 3
         return 4
+
+def atualizando_status(id,nome_funcao):
+    try:
+        funcionalidade = Funcionalidades_bot.objects.get(nome = nome_funcao)
+        uf = Usuario_Funcao.objects.get(id_usuario = id , id_funcionalidade = funcionalidade.id)
+        uf.status = 1
+        uf.save()
+        return
+    except ObjectDoesNotExist:
+        return
+
+def terminou_cadastro(id):
+    usuario = Usuario.objects.get(id=id)
+    if (usuario.nome == None or usuario.email == None or usuario.status_acesso!=1):
+        return True
+    else:
+        return False

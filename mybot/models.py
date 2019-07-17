@@ -119,3 +119,22 @@ class Usuario_Funcao(models.Model):
     permissao = models.IntegerField(default=1)
     status = models.IntegerField(default=0)
 
+class Lista_Horas(models.Model):
+    horas = models.CharField(max_length=200)
+
+class Conversa_ML(models.Model):
+    conversa = models.CharField(max_length=1000)
+
+'''------------------Mineracao dados cassandra--------------------------'''
+class MDC_Mineracao_Dados_Cassandra(models.Model):
+    id_user = models.TextField()
+    json_dados= models.TextField()
+
+'''class Dbd_Dados_Bot_Delivery(models.Model):
+    id_user =models.BigIntegerField()
+    object = models.CharField(max_length=200)
+    entry_id = models.BigIntegerField()
+    entry_time = models.BigIntegerField()
+    entry_messaging_sender_id = models.BigIntegerField()
+    entry_messaging_sender_community_id = models.BigIntegerField()'''
+

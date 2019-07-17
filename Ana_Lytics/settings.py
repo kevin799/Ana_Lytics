@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Django settings for Ana_Lytics project.
 
@@ -41,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'mybot',
     'django_cassandra_engine',
+    'chatterbot.ext.django_chatterbot',
 ]
 
 
@@ -169,6 +169,9 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
+
+
+
 
 
 # Internationalization

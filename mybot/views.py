@@ -1,11 +1,15 @@
 # -*- coding: utf-8 -*-
 import random
 import os, sys
+
+from chatterbot import ChatBot
+from chatterbot.trainers import ListTrainer
 from django.views import generic
 from django.http.response import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
 
+from Ana_Lytics import settings
 from mybot.funcoes_bot import *
 from mybot.model_cmd import *
 from mybot.messenger_api import *
@@ -17,7 +21,8 @@ from cassandra.cluster import Cluster
 from mybot.models import ExampleModel
 from django.http import HttpResponse
 from mybot.database_access import *
-
+from chatterbot.trainers import ListTrainer
+from chatterbot import ChatBot
 '''
 def post_facebook_message(fbid, recevied_message):
     # user_details_url = "https://graph.facebook.com/v2.6/%s" % fbid
@@ -29,7 +34,11 @@ def post_facebook_message(fbid, recevied_message):
         fb.text_message("deu bom")
         return 0
 '''
-
+chatterbot = ChatBot('Ana Lytics',read_only=True,
+    logic_adapters=[
+        "chatterbot.logic.BestMatch"
+    ])
+treinar(chatterbot)
 
 def index(request):
     cluster = Cluster(['127.0.0.1'])
@@ -56,6 +65,7 @@ class MyBotView(generic.View):
 
     def post(self, request, *args, **kwargs):
         incoming_message = json.loads(self.request.body.decode('utf-8'))
+
         print(incoming_message)
         for entry in incoming_message['entry']:
             for message in entry['messaging']:
@@ -68,9 +78,20 @@ class MyBotView(generic.View):
 
 
                     try:
+                        fb = FbMessageApi(message['sender']['id'])
 
                         if(existecia_usuario(message['sender']['id'])):
-                            cadastro(message['sender']['id'], message['message']['text'])
+                            if (terminou_cadastro(message['sender']['id'])):
+                                cadastro(message['sender']['id'], message['message']['text'])
+                                return HttpResponse()
+
+                            response = chatterbot.get_response(message['message']['text'])
+                            print(float(response.confidence)*0.01)
+                            if float(response.confidence)>0.5:
+                                fb.text_message(str(response))
+                            else:
+                                fb.text_message('Nao sei ainda o que responder :(')
+
 
                     except:
                         print('exept')

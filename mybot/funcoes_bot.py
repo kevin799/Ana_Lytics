@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+from chatterbot.trainers import ListTrainer
+
 from mybot.messenger_api import *
 from mybot.database_access import *
 from mybot.models import *
@@ -23,22 +25,22 @@ def cadastro(fbid, recevied_message):
                 }]
 
         fb.quick_reply_message("Que tal começarmos o seu cadastro agora 🤔???",qr)
-        return
+        return True
 
     try:
         print('Entrou antes do acesso')
         usuario = Usuario.objects.get(id=fbid)
         print('entrou depois')
     except ObjectDoesNotExist:
-        return
+        return True
     if(usuario.status_acesso==0 and recevied_message.upper() == 'SIM'):
         usuario.status_acesso=1
         usuario.save()
         fb.text_message("Tudo bem... Me passa o seu e-mail pfv")
-        return
+        return True
     if(usuario.status_acesso==0 and recevied_message.upper() == 'NÃO'):
         fb.text_message("Tudo bem 😭... Mais tarde eu te conheço melhor ")
-        return
+        return True
     if (usuario.status_acesso == 0):
         fb.text_message("Pera... eu ainda nao te conheço 😱😱😱🤔")
         qr = [{"content_type": "text",
@@ -51,21 +53,35 @@ def cadastro(fbid, recevied_message):
                }]
 
         fb.quick_reply_message("Que tal começarmos o seu cadastro agora 🤔???", qr)
-        return
+        return True
     resposta = cadastro_usuario(fbid, recevied_message)
     if(resposta ==1 or resposta == 3):
         usuario = Usuario.objects.get(id=fbid)
         fb.text_message("Prontinho! Finalizamos o seu cadastro 😊!")
         fb.text_message("Espero que possamos nos dar bem %s" %usuario.nome)
-        return
+        atualizando_status(fbid,'Bater ponto')
+        return True
 
     if(resposta == -1):
         fb.text_message("Por favor insira um e-mail valido 😡")
-        return
+        return True
     if(resposta == 2):
         fb.text_message("Como você se chama?🤔")
-        return
+        return True
     if(resposta==4):
         fb.text_message("Pode comemorar meu caro xovi")
-        return
+        atualizando_status(fbid, 'Bater ponto')
+        return False
 
+def bater_ponto(fbid, recevied_message):
+
+    return
+
+def treinar(chatterbot):
+    lista_dialogo = []
+    trainer = ListTrainer(chatterbot)
+    conversa = Conversa_ML.objects.values('conversa')
+    for i in conversa:
+        lista_dialogo.append(i['conversa'])
+    trainer.train(lista_dialogo)
+    print(lista_dialogo)
