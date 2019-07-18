@@ -83,7 +83,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'bot',
         'USER': 'bot',
-        'PASSWORD': '#Bot123',
+        'PASSWORD': '#Bot&123',
         'HOST': 'localhost',
     #IMPORTANT!!
     'OPTIONS': {

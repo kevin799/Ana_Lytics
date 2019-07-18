@@ -130,11 +130,43 @@ class MDC_Mineracao_Dados_Cassandra(models.Model):
     id_user = models.TextField()
     json_dados= models.TextField()
 
-'''class Dbd_Dados_Bot_Delivery(models.Model):
-    id_user =models.BigIntegerField()
-    object = models.CharField(max_length=200)
-    entry_id = models.BigIntegerField()
-    entry_time = models.BigIntegerField()
-    entry_messaging_sender_id = models.BigIntegerField()
-    entry_messaging_sender_community_id = models.BigIntegerField()'''
+class Dbd_Dados_Bot_Delivery(models.Model):
+    DBD_BOT_ID = models.TextField()
+    DBD_BOT_TIME = models.TextField()
+    DBD_BOT_MESSAGING_SENDER_ID = models.TextField()
+    DBD_BOT_MESSAGING_RECIPIENT_ID = models.TextField()
+    DBD_BOT_MESSAGING_TIME = models.TextField()
+    DBD_BOT_MESSAGING_DELIVERY_MIDS = models.TextField()
+    DBD_BOT_MESSAGING_DELIVERY_WATERMARK = models.TextField()
+    DBD_BOT_MESSAGING_DELIVERY_SEQ = models.TextField()
 
+class Dbr_Dados_Bot_Read(models.Model):
+    DBR_BOT_ID = models.TextField()
+    DBR_BOT_TIME = models.TextField()
+    DBR_BOT_MESSAGING_SENDER_ID = models.TextField()
+    DBR_BOT_MESSAGING_RECIPIENT_ID = models.TextField()
+    DBR_BOT_MESSAGING_TIME = models.TextField()
+    DBR_BOT_MESSAGING_READ_WATERMARK = models.TextField()
+    DBR_BOT_MESSAGING_READ_SEQ = models.TextField()
+
+class Drb_Dados_Resposta_Bot(models.Model):
+    DRB_BOT_ID = models.TextField()
+    DRB_BOT_TIME = models.TextField()
+    DRB_BOT_MESSAGING_SENDER_ID = models.TextField()
+    DRB_BOT_MESSAGING_RECIPIENT_ID = models.TextField()
+    DRB_BOT_MESSAGING_TIME = models.TextField()
+    DRB_BOT_MESSAGING_MESSAGE_IS_ECHO = models.TextField()
+    DRB_BOT_MESSAGING_MESSAGE_APP_ID = models.TextField()
+    DRB_BOT_MESSAGING_MESSAGE_MID = models.TextField()
+    DRB_BOT_MESSAGING_MESSAGE_SEQ = models.TextField()
+    DRB_BOT_MESSAGING_MESSAGE_TEXT = models.TextField()
+
+class Dsc_Dados_Conversa(models.Model):
+    DSC_BOT_ID = models.TextField()
+    DSC_BOT_TIME = models.TextField()
+    DSC_BOT_MESSAGING_SENDER_ID = models.TextField()
+    DSC_BOT_MESSAGING_RECIPIENT_ID = models.TextField()
+    DSC_BOT_MESSAGING_TIME = models.TextField()
+    DSC_BOT_MESSAGING_MESSAGE_MID = models.TextField()
+    DSC_BOT_MESSAGING_MESSAGE_SEQ = models.TextField()
+    DSC_BOT_MESSAGING_MESSAGE_TEXT = models.TextField()
