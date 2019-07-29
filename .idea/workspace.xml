@@ -3,11 +3,37 @@
   <component name="ChangeListManager">
     <list default="true" id="b299da69-0002-4a03-86ea-ed9ed1c49a03" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Ana_Lytics/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/Ana_Lytics/settings.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Dominio ngrok.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Dominio ngrok.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Mineracao_dados/Acesso_Banco.py" beforeDir="false" afterPath="$PROJECT_DIR$/Mineracao_dados/Acesso_Banco.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Mineracao_dados/Script_coleta.py" beforeDir="false" afterPath="$PROJECT_DIR$/Mineracao_dados/Script_coleta.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Script_Sql/Trigger/after_insert_funcionalidades_bot.sql" beforeDir="false" afterPath="$PROJECT_DIR$/Script_Sql/Trigger/after_insert_funcionalidades_bot.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Script_Sql/Trigger/after_insert_user.sql" beforeDir="false" afterPath="$PROJECT_DIR$/Script_Sql/Trigger/after_insert_user.sql" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/db.sqlite3" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mybot/database_access.py" beforeDir="false" afterPath="$PROJECT_DIR$/mybot/database_access.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mybot/funcoes_bot.py" beforeDir="false" afterPath="$PROJECT_DIR$/mybot/funcoes_bot.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mybot/migrations/0001_initial.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mybot/migrations/0002_choice_aa.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mybot/migrations/0003_choice_votes2.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mybot/migrations/0004_usuario.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mybot/migrations/0005_auto_20190622_1607.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mybot/migrations/0006_auto_20190622_1608.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mybot/migrations/0007_auto_20190622_1748.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mybot/migrations/0008_colaboradores_nome.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mybot/migrations/0009_usuario_status_acesso.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mybot/migrations/0010_funcionalidades_bot.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mybot/migrations/0011_usuario_funcao.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mybot/migrations/0012_lista_horas.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mybot/migrations/0013_conversa_ml.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mybot/migrations/0014_mdc_mineracao_dados_cassandra.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mybot/migrations/0015_auto_20190714_1800.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mybot/migrations/0016_delete_mdc_mineracao_dados_cassandra.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mybot/migrations/0017_mdc_mineracao_dados_cassandra.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mybot/migrations/0018_delete_mdc_mineracao_dados_cassandra.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mybot/migrations/0019_mdc_mineracao_dados_cassandra.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mybot/migrations/0020_dbd_dados_bot_delivery.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mybot/migrations/0021_auto_20190717_2233.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mybot/migrations/0022_dsc_dados_conversa_dsc_bot_id.py" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/mybot/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/mybot/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mybot/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/mybot/views.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -15,57 +41,52 @@
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="DockManager">
+    <window id="2">
+      <content type="file-editors">
+        <state>
+          <leaf>
+            <file pinned="false" current-in-tab="true">
+              <entry file="file://$PROJECT_DIR$/mybot/database_access.py">
+                <provider selected="true" editor-type-id="text-editor">
+                  <state relative-caret-position="15">
+                    <caret line="119" column="44" selection-start-line="119" selection-start-column="42" selection-end-line="119" selection-end-column="44" />
+                    <folding>
+                      <element signature="e#24#66#0" expanded="true" />
+                    </folding>
+                  </state>
+                </provider>
+              </entry>
+            </file>
+            <file pinned="false" current-in-tab="false">
+              <entry file="file://$PROJECT_DIR$/mybot/models.py">
+                <provider selected="true" editor-type-id="text-editor">
+                  <state relative-caret-position="107">
+                    <caret line="133" column="24" selection-start-line="133" selection-start-column="6" selection-end-line="133" selection-end-column="24" />
+                    <folding>
+                      <element signature="e#44#55#0" expanded="true" />
+                    </folding>
+                  </state>
+                </provider>
+              </entry>
+            </file>
+          </leaf>
+        </state>
+      </content>
+    </window>
+  </component>
   <component name="FavoritesManager">
     <favorites_list name="Ana_Lytics" />
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/mybot/messenger_api.py">
+        <entry file="file://$PROJECT_DIR$/mybot/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="615">
-              <caret line="43" column="17" selection-start-line="43" selection-start-column="17" selection-end-line="43" selection-end-column="17" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/mybot/models.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="297">
-              <caret line="164" column="43" lean-forward="true" selection-start-line="164" selection-start-column="43" selection-end-line="164" selection-end-column="43" />
+            <state relative-caret-position="342">
+              <caret line="105" column="27" lean-forward="true" selection-start-line="105" selection-start-column="27" selection-end-line="105" selection-end-column="27" />
               <folding>
-                <element signature="e#44#55#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/mybot/testecomclasse.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="210">
-              <caret line="15" selection-start-line="15" selection-end-line="15" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/mybot/urls.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state>
-              <caret column="23" selection-start-column="23" selection-end-column="23" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/mybot/database_access.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-2118">
-              <caret line="18" column="36" selection-start-line="18" selection-start-column="36" selection-end-line="18" selection-end-column="36" />
-              <folding>
-                <element signature="e#24#66#0" expanded="true" />
+                <element signature="e#24#37#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -74,53 +95,53 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Ana_Lytics/settings.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="487">
-              <caret line="85" column="29" selection-start-line="85" selection-start-column="29" selection-end-line="85" selection-end-column="29" />
+            <state relative-caret-position="15">
+              <caret line="55" lean-forward="true" selection-start-line="55" selection-end-line="55" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Mineracao_dados/Acesso_Banco.py">
+        <entry file="file://$PROJECT_DIR$/manage.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="177">
-              <caret line="57" column="24" selection-start-line="57" selection-start-column="12" selection-end-line="57" selection-end-column="24" />
+            <state relative-caret-position="120">
+              <caret line="8" column="23" lean-forward="true" selection-start-line="8" selection-start-column="23" selection-end-line="8" selection-end-column="23" />
               <folding>
-                <element signature="e#24#66#0" expanded="true" />
+                <element signature="e#22#31#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Bot_ativo/funcao_acesso.py">
+        <entry file="file://$PROJECT_DIR$/mybot/fb_setting.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="135">
-              <caret line="9" column="33" lean-forward="true" selection-start-line="9" selection-start-column="33" selection-end-line="9" selection-end-column="33" />
-              <folding>
-                <element signature="e#0#14#0" expanded="true" />
-              </folding>
+            <state>
+              <caret column="23" selection-start-column="23" selection-end-column="23" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Bot_ativo/messenger_api.py">
+        <entry file="file://$PROJECT_DIR$/mybot/urls.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-120">
-              <caret line="9" column="26" lean-forward="true" selection-start-line="9" selection-start-column="26" selection-end-line="9" selection-end-column="26" />
+            <state relative-caret-position="120">
+              <caret line="8" selection-start-line="8" selection-end-line="8" />
               <folding>
-                <element signature="e#0#11#0" expanded="true" />
+                <element signature="e#24#65#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Mineracao_dados/Script_coleta.py">
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/mybot/funcoes_bot.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="30">
-              <caret line="2" column="17" selection-start-line="2" selection-start-column="17" selection-end-line="2" selection-end-column="17" />
+            <state relative-caret-position="178">
+              <caret line="215" column="22" lean-forward="true" selection-start-line="215" selection-start-column="22" selection-end-line="215" selection-end-column="22" />
+              <folding>
+                <element signature="e#24#67#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -142,6 +163,8 @@
       <find>examplemodel</find>
       <find>lan</find>
       <find>StorageAdapter</find>
+      <find>atualizando_status</find>
+      <find>Usuario_cargo</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -155,7 +178,6 @@
         <option value="$PROJECT_DIR$/mybot/Model/Bot_Delivery.py" />
         <option value="$PROJECT_DIR$/mybot/Model/BotDelivery.py" />
         <option value="$PROJECT_DIR$/mybot/model_cassandra.py" />
-        <option value="$PROJECT_DIR$/Dominio ngrok.txt" />
         <option value="$PROJECT_DIR$/Script automatizacao/Teste conexao cassandra.py" />
         <option value="$PROJECT_DIR$/Script automatizacao/Teste_conexao_cassandra.py" />
         <option value="$PROJECT_DIR$/Script_automatizacao/Teste_conexao_cassandra.py" />
@@ -163,18 +185,22 @@
         <option value="$PROJECT_DIR$/Ana_Lytics/wsgi.py" />
         <option value="$PROJECT_DIR$/mybot/apps.py" />
         <option value="$PROJECT_DIR$/mybot/fb_setting.py" />
-        <option value="$PROJECT_DIR$/mybot/messenger_api.py" />
         <option value="$PROJECT_DIR$/mybot/model_cmd.py" />
         <option value="$PROJECT_DIR$/mybot/testecomclasse.py" />
         <option value="$PROJECT_DIR$/mybot/urls.py" />
         <option value="$PROJECT_DIR$/Bot_ativo/funcao_acesso.py" />
-        <option value="$PROJECT_DIR$/mybot/database_access.py" />
-        <option value="$PROJECT_DIR$/mybot/funcoes_bot.py" />
-        <option value="$PROJECT_DIR$/mybot/views.py" />
         <option value="$PROJECT_DIR$/Mineracao_dados/Script_coleta.py" />
         <option value="$PROJECT_DIR$/Ana_Lytics/settings.py" />
         <option value="$PROJECT_DIR$/Mineracao_dados/Acesso_Banco.py" />
+        <option value="$PROJECT_DIR$/Dominio ngrok.txt" />
+        <option value="$PROJECT_DIR$/Script_Sql/Trigger/after_insert_funcionalidades_bot.sql" />
+        <option value="$PROJECT_DIR$/mybot/messenger_api.py" />
+        <option value="$PROJECT_DIR$/Script_Sql/Trigger/after_insert_user.sql" />
+        <option value="$PROJECT_DIR$/mybot/migrations/0001_initial.py" />
         <option value="$PROJECT_DIR$/mybot/models.py" />
+        <option value="$PROJECT_DIR$/mybot/views.py" />
+        <option value="$PROJECT_DIR$/mybot/database_access.py" />
+        <option value="$PROJECT_DIR$/mybot/funcoes_bot.py" />
       </list>
     </option>
   </component>
@@ -189,7 +215,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -217,10 +242,28 @@
               <item name="Ana_Lytics" type="462c0819:PsiDirectoryNode" />
               <item name="mybot" type="462c0819:PsiDirectoryNode" />
             </path>
+            <path>
+              <item name="Ana_Lytics" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Ana_Lytics" type="462c0819:PsiDirectoryNode" />
+              <item name="mybot" type="462c0819:PsiDirectoryNode" />
+              <item name="migrations" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Ana_Lytics" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Ana_Lytics" type="462c0819:PsiDirectoryNode" />
+              <item name="Script_Sql" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Ana_Lytics" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Ana_Lytics" type="462c0819:PsiDirectoryNode" />
+              <item name="Script_Sql" type="462c0819:PsiDirectoryNode" />
+              <item name="Trigger" type="462c0819:PsiDirectoryNode" />
+            </path>
           </expand>
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -241,7 +284,7 @@
     </option>
   </component>
   <component name="RunManager" selected="Python.Acesso_Banco">
-    <configuration name="Acesso_Banco" type="PythonConfigurationType" factoryName="Python" temporary="true">
+    <configuration name="Acesso_Banco" type="PythonConfigurationType" factoryName="Python">
       <module name="Ana_Lytics" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -348,7 +391,6 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.Acesso_Banco" />
         <item itemvalue="Python.database_access" />
         <item itemvalue="Python.testecomclasse" />
         <item itemvalue="Python.teste_conexao_cassandra" />
@@ -380,7 +422,6 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="25" width="1920" height="1055" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" sideWeight="0.8069853" visible="true" weight="0.16499737" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
@@ -423,27 +464,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/manage.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="45">
-          <caret line="4" column="26" selection-start-line="4" selection-start-column="26" selection-end-line="4" selection-end-column="26" />
-          <folding>
-            <element signature="e#22#31#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/mybot/Model/BotDelivery.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="165">
           <caret line="11" column="24" selection-start-line="11" selection-start-column="24" selection-end-line="11" selection-end-column="24" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/mybot/migrations/0001_initial.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="225">
-          <caret line="16" column="20" lean-forward="true" selection-start-line="16" selection-start-column="20" selection-end-line="16" selection-end-column="20" />
         </state>
       </provider>
     </entry>
@@ -465,31 +489,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Script_Sql/Trigger/after_insert_user.sql">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="45">
-          <caret line="3" column="46" lean-forward="true" selection-start-line="3" selection-start-column="46" selection-end-line="3" selection-end-column="46" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Ana_Lytics/urls.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret column="23" selection-start-column="23" selection-end-column="23" />
-          <folding>
-            <element signature="e#644#685#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Ana_Lytics/wsgi.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret column="23" selection-start-column="23" selection-end-column="23" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/mybot/fb_setting.py">
       <provider selected="true" editor-type-id="text-editor">
         <state>
           <caret column="23" selection-start-column="23" selection-end-column="23" />
@@ -500,13 +500,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state>
           <caret column="23" selection-start-column="23" selection-end-column="23" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Script_Sql/Trigger/after_insert_funcionalidades_bot.sql">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="225">
-          <caret line="15" lean-forward="true" selection-start-line="15" selection-end-line="15" />
         </state>
       </provider>
     </entry>
@@ -547,13 +540,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Dominio ngrok.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret selection-end-column="56" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$USER_HOME$/PycharmProjects/untitled/venv/lib/python3.6/site-packages/sqlalchemy/pool.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="11055">
@@ -578,16 +564,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/mybot/views.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1065">
-          <caret line="94" selection-start-line="94" selection-end-line="94" />
-          <folding>
-            <element signature="e#24#37#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/mybot/apps.py">
       <provider selected="true" editor-type-id="text-editor">
         <state>
@@ -595,97 +571,169 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/mybot/funcoes_bot.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1050">
-          <caret line="75" column="40" selection-start-line="75" selection-start-column="40" selection-end-line="75" selection-end-column="40" />
-          <folding>
-            <element signature="e#24#67#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/mybot/messenger_api.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="615">
-          <caret line="43" column="17" selection-start-line="43" selection-start-column="17" selection-end-line="43" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/mybot/testecomclasse.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="210">
-          <caret line="15" selection-start-line="15" selection-end-line="15" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/mybot/urls.py">
+    <entry file="file://$PROJECT_DIR$/Bot_ativo/messenger_api.py">
       <provider selected="true" editor-type-id="text-editor">
         <state>
-          <caret column="23" selection-start-column="23" selection-end-column="23" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Mineracao_dados/Script_coleta.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="30">
-          <caret line="2" column="17" selection-start-line="2" selection-start-column="17" selection-end-line="2" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/mybot/database_access.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-2118">
-          <caret line="18" column="36" selection-start-line="18" selection-start-column="36" selection-end-line="18" selection-end-column="36" />
-          <folding>
-            <element signature="e#24#66#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Ana_Lytics/settings.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="487">
-          <caret line="85" column="29" selection-start-line="85" selection-start-column="29" selection-end-line="85" selection-end-column="29" />
+          <caret column="11" selection-start-column="11" selection-end-column="11" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Bot_ativo/funcao_acesso.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="135">
-          <caret line="9" column="33" lean-forward="true" selection-start-line="9" selection-start-column="33" selection-end-line="9" selection-end-column="33" />
+        <state relative-caret-position="240">
+          <caret line="16" lean-forward="true" selection-start-line="16" selection-end-line="19" selection-end-column="42" />
           <folding>
             <element signature="e#0#14#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Bot_ativo/messenger_api.py">
+    <entry file="file://$PROJECT_DIR$/Mineracao_dados/Script_coleta.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-120">
-          <caret line="9" column="26" lean-forward="true" selection-start-line="9" selection-start-column="26" selection-end-line="9" selection-end-column="26" />
-          <folding>
-            <element signature="e#0#11#0" expanded="true" />
-          </folding>
+        <state>
+          <caret selection-end-line="2" selection-end-column="17" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Mineracao_dados/Acesso_Banco.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="177">
-          <caret line="57" column="24" selection-start-line="57" selection-start-column="12" selection-end-line="57" selection-end-column="24" />
+        <state relative-caret-position="630">
+          <caret line="42" lean-forward="true" selection-start-line="42" selection-end-line="42" />
           <folding>
             <element signature="e#24#66#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/mybot/testecomclasse.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="90">
+          <caret line="7" column="34" lean-forward="true" selection-start-line="7" selection-start-column="34" selection-end-line="7" selection-end-column="34" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mybot/messenger_api.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="45">
+          <caret line="5" column="33" lean-forward="true" selection-start-line="5" selection-start-column="33" selection-end-line="5" selection-end-column="33" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Script_Sql/Trigger/after_insert_funcionalidades_bot.sql">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret selection-end-line="14" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Ana_Lytics/urls.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="300">
+          <caret line="20" selection-start-line="20" selection-end-line="20" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Script_Sql/Trigger/after_insert_user.sql">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="150">
+          <caret line="10" column="36" selection-start-line="10" selection-start-column="36" selection-end-line="10" selection-end-column="36" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Dominio ngrok.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret selection-end-column="56" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mybot/migrations/0004_usuario_cargo.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="225">
+          <caret line="16" column="54" selection-start-line="16" selection-start-column="54" selection-end-line="16" selection-end-column="54" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mybot/migrations/0001_initial.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="300">
+          <caret line="21" column="31" lean-forward="true" selection-start-line="21" selection-start-column="31" selection-end-line="21" selection-end-column="31" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mybot/migrations/__init__.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
     <entry file="file://$PROJECT_DIR$/mybot/models.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="297">
-          <caret line="164" column="43" lean-forward="true" selection-start-line="164" selection-start-column="43" selection-end-line="164" selection-end-column="43" />
+        <state relative-caret-position="107">
+          <caret line="133" column="24" selection-start-line="133" selection-start-column="6" selection-end-line="133" selection-end-column="24" />
           <folding>
             <element signature="e#44#55#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mybot/views.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="342">
+          <caret line="105" column="27" lean-forward="true" selection-start-line="105" selection-start-column="27" selection-end-line="105" selection-end-column="27" />
+          <folding>
+            <element signature="e#24#37#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Ana_Lytics/settings.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="15">
+          <caret line="55" lean-forward="true" selection-start-line="55" selection-end-line="55" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/manage.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="120">
+          <caret line="8" column="23" lean-forward="true" selection-start-line="8" selection-start-column="23" selection-end-line="8" selection-end-column="23" />
+          <folding>
+            <element signature="e#22#31#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mybot/fb_setting.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="23" selection-start-column="23" selection-end-column="23" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mybot/urls.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="120">
+          <caret line="8" selection-start-line="8" selection-end-line="8" />
+          <folding>
+            <element signature="e#24#65#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mybot/database_access.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="15">
+          <caret line="119" column="44" selection-start-line="119" selection-start-column="42" selection-end-line="119" selection-end-column="44" />
+          <folding>
+            <element signature="e#24#66#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mybot/funcoes_bot.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="178">
+          <caret line="215" column="22" lean-forward="true" selection-start-line="215" selection-start-column="22" selection-end-line="215" selection-end-column="22" />
+          <folding>
+            <element signature="e#24#67#0" expanded="true" />
           </folding>
         </state>
       </provider>

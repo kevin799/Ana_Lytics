@@ -72,6 +72,7 @@ python manage.py migrate
 
 
 '''
+
 class Question(models.Model):
     question_text = models.CharField(max_length=200)
     pub_date = models.DateTimeField('date published')
@@ -89,7 +90,7 @@ class Choice_aa(models.Model):
     votes = models.IntegerField(default=0)
 
 class Usuario(models.Model):
-    id = models.BigIntegerField(primary_key=True)
+    id = models.BigIntegerField(primary_key=True,max_length=None)
     nome = models.CharField(max_length=150,null=True)
     email = models.CharField(max_length=200,null=True)
     status_acesso = models.IntegerField(null=True)
@@ -117,7 +118,8 @@ class Usuario_Funcao(models.Model):
     id_usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE)
     id_funcionalidade = models.ForeignKey(Funcionalidades_bot, on_delete=models.CASCADE)
     permissao = models.IntegerField(default=1)
-    status = models.IntegerField(default=0)
+    status = models.IntegerField(default=None,null=True)
+    ativo = models.IntegerField(null=True)
 
 class Lista_Horas(models.Model):
     horas = models.CharField(max_length=200)
@@ -125,7 +127,22 @@ class Lista_Horas(models.Model):
 class Conversa_ML(models.Model):
     conversa = models.CharField(max_length=1000)
 
+class Cargo(models.Model):
+    nome = models.CharField(max_length=200)
+    horas = models.IntegerField(null=True)
+
+class Usuario_cargo_hora(models.Model):
+    id_usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE)
+    id_cargo = models.ForeignKey(Cargo, on_delete=models.CASCADE,null=True)
+    hora_entrada = models.CharField(max_length=15,null=True)
+    periodo_entrada = models.CharField(max_length=10,null=True)
+    hora_almoco = models.CharField(max_length=15,null=True)
+    periodo_almoco = models.CharField(max_length=10,null=True)
+
+
+
 '''------------------Mineracao dados cassandra--------------------------'''
+
 class MDC_Mineracao_Dados_Cassandra(models.Model):
     id_user = models.TextField()
     json_dados= models.TextField()

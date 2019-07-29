@@ -64,9 +64,8 @@ for j in resultado:
             DSC_BOT_MESSAGING_MESSAGE_TEXT = str(i['messaging'][0]['message']['text'])
         cursor.execute("INSERT INTO bot.mybot_dsc_dados_conversa(DSC_BOT_ID,DSC_BOT_TIME,DSC_BOT_MESSAGING_SENDER_ID,DSC_BOT_MESSAGING_RECIPIENT_ID,DSC_BOT_MESSAGING_TIME,DSC_BOT_MESSAGING_MESSAGE_MID,DSC_BOT_MESSAGING_MESSAGE_SEQ,DSC_BOT_MESSAGING_MESSAGE_TEXT) VALUES('%s','%s','%s','%s','%s','%s','%s','%s')"
                        %(DSC_BOT_ID,DSC_BOT_TIME,DSC_BOT_MESSAGING_SENDER_ID,DSC_BOT_MESSAGING_RECIPIENT_ID,DSC_BOT_MESSAGING_TIME,DSC_BOT_MESSAGING_MESSAGE_MID,DSC_BOT_MESSAGING_MESSAGE_SEQ,DSC_BOT_MESSAGING_MESSAGE_TEXT))
+        con.commit()
 
-        print(1)
-        print(DSC_BOT_ID)
     if ('message' in i.keys() and 'sender' in i.keys() and 'recipient' in i.keys() and 'timestamp' in i.keys()) and (
             'is_echo' in i['message'].keys() and 'app_id' in i['message'].keys()):
         for i in js['entry']:
@@ -80,17 +79,27 @@ for j in resultado:
             DSC_BOT_MESSAGING_MESSAGE_MID = (i['messaging'][0]['message']['mid'])
             DSC_BOT_MESSAGING_MESSAGE_SEQ = (i['messaging'][0]['message']['seq'])
             DSC_BOT_MESSAGING_MESSAGE_TEXT = (i['messaging'][0]['message']['text'])
-        print(2)
-        print(id)
+        cursor.execute(
+            "INSERT INTO bot.mybot_drb_dados_resposta_bot(DSC_BOT_ID,DSC_BOT_TIME,DSC_BOT_MESSAGING_SENDER_ID,DSC_BOT_MESSAGING_RECIPIENT_ID,DSC_BOT_MESSAGING_TIME,DSC_BOT_MESSAGING_MESSAGE_IS_ECHO,DSC_BOT_MESSAGING_MESSAGE_APP_ID,DSC_BOT_MESSAGING_MESSAGE_MID,DSC_BOT_MESSAGING_MESSAGE_SEQ,DSC_BOT_MESSAGING_MESSAGE_TEXT) VALUES('%s','%s','%s','%s','%s','%s','%s','%s','%s','%s')"
+            % (DSC_BOT_ID,DSC_BOT_TIME,DSC_BOT_MESSAGING_SENDER_ID,DSC_BOT_MESSAGING_RECIPIENT_ID,DSC_BOT_MESSAGING_TIME,DSC_BOT_MESSAGING_MESSAGE_IS_ECHO,
+               DSC_BOT_MESSAGING_MESSAGE_APP_ID,DSC_BOT_MESSAGING_MESSAGE_MID,DSC_BOT_MESSAGING_MESSAGE_SEQ,DSC_BOT_MESSAGING_MESSAGE_TEXT))
+        con.commit()
+
     if ('delivery' in i.keys() and 'sender' in i.keys() and 'recipient' in i.keys() and 'timestamp' in i.keys()):
         for i in js['entry']:
-            DSC_BOT_ID = i['id']
-            DSC_BOT_TIME = str(pandas.to_datetime((i['time']), unit='ms'))
-            DSC_BOT_MESSAGING_SENDER_ID = (i['messaging'][0]['sender']['id'])
-            DSC_BOT_MESSAGING_RECIPIENT_ID = (i['messaging'][0]['recipient']['id'])
-            DSC_BOT_MESSAGING_TIME = str(pandas.to_datetime((i['messaging'][0]['timestamp']), unit='ms'))
-            DSC_BOT_MESSAGING_DELIVERY_MIDS = (i['messaging'][0]['delivery']['mids'])
-            DSC_BOT_MESSAGING_DELIVERY_WATERMARK = (i['messaging'][0]['delivery']['watermark'])
-            DSC_BOT_MESSAGING_DELIVERY_SEQ = (i['messaging'][0]['delivery']['seq'])
-        print(3)
-        print(id)
+            DBD_BOT_ID = i['id']
+            DBD_BOT_TIME = str(pandas.to_datetime((i['time']), unit='ms'))
+            DBD_BOT_MESSAGING_SENDER_ID = str(i['messaging'][0]['sender']['id'])
+            DBD_BOT_MESSAGING_RECIPIENT_ID = str(i['messaging'][0]['recipient']['id'])
+            DBD_BOT_MESSAGING_TIME = str(pandas.to_datetime((i['messaging'][0]['timestamp']), unit='ms'))
+            DBD_BOT_MESSAGING_DELIVERY_MIDS = str(i['messaging'][0]['delivery']['mids'][0])
+            DBD_BOT_MESSAGING_DELIVERY_WATERMARK = str(i['messaging'][0]['delivery']['watermark'])
+            DBD_BOT_MESSAGING_DELIVERY_SEQ = str(i['messaging'][0]['delivery']['seq'])
+
+        cursor.execute("INSERT INTO bot.mybot_dbd_dados_bot_delivery(DBD_BOT_ID,DBD_BOT_MESSAGING_SENDER_ID,DBD_BOT_MESSAGING_RECIPIENT_ID,DBD_BOT_MESSAGING_DELIVERY_MIDS,DBD_BOT_MESSAGING_DELIVERY_WATERMARK,DBD_BOT_MESSAGING_DELIVERY_SEQ,DBD_BOT_TIME,DBD_BOT_MESSAGING_TIME) VALUES('%s','%s','%s','%s','%s','%s','%s','%s')"
+                       %(DBD_BOT_ID,DBD_BOT_MESSAGING_SENDER_ID,DBD_BOT_MESSAGING_RECIPIENT_ID,DBD_BOT_MESSAGING_DELIVERY_MIDS,DBD_BOT_MESSAGING_DELIVERY_WATERMARK,
+                         DBD_BOT_MESSAGING_DELIVERY_SEQ,DBD_BOT_TIME,DBD_BOT_MESSAGING_TIME))
+        con.commit()
+    cursor.execute("DELETE FROM bot.mybot_mdc_mineracao_dados_cassandra WHERE ID = %s" %(id))
+    con.commit()
+con.close()

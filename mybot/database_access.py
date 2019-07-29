@@ -169,13 +169,49 @@ def cadastro_usuario(id,texto):
             return 3
         return 4
 
-def atualizando_status(id,nome_funcao):
+def consulta_status(id,nome_funcao):
     try:
         funcionalidade = Funcionalidades_bot.objects.get(nome = nome_funcao)
         uf = Usuario_Funcao.objects.get(id_usuario = id , id_funcionalidade = funcionalidade.id)
-        uf.status = 1
+
+        return uf.status
+    except ObjectDoesNotExist:
+        return
+
+def atualizando_status(id,nome_funcao,status):
+    try:
+        funcionalidade = Funcionalidades_bot.objects.get(nome = nome_funcao)
+        uf = Usuario_Funcao.objects.get(id_usuario = id , id_funcionalidade = funcionalidade.id)
+        uf.status = status
         uf.save()
         return
+    except ObjectDoesNotExist:
+        return
+
+def atualizando_ativo(id,nome_funcao,ativo):
+    try:
+        funcionalidade = Funcionalidades_bot.objects.get(nome = nome_funcao)
+        uf = Usuario_Funcao.objects.get(id_usuario = id , id_funcionalidade = funcionalidade.id)
+        uf.ativo = ativo
+        uf.save()
+        return
+    except ObjectDoesNotExist:
+        return
+
+def consulta_ativo(id):
+    try:
+
+        uf = Usuario_Funcao.objects.filter(id_usuario = id )
+        id_funcao=None
+        for i in uf:
+            if i.ativo == 1:
+                id_funcao = i.id_funcionalidade
+        if id_funcao != None:
+            funcionalidade = Funcionalidades_bot.objects.get(id=id_funcao.id)
+            return funcionalidade.nome
+        else:
+            return id_funcao
+
     except ObjectDoesNotExist:
         return
 
@@ -185,3 +221,5 @@ def terminou_cadastro(id):
         return True
     else:
         return False
+
+#print(consulta_status(100030196033467,'Minhas funções'))

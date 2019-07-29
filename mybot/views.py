@@ -79,11 +79,12 @@ class MyBotView(generic.View):
 
                     try:
                         fb = FbMessageApi(message['sender']['id'])
-
                         if(existecia_usuario(message['sender']['id'])):
                             if (terminou_cadastro(message['sender']['id'])):
                                 cadastro(message['sender']['id'], message['message']['text'])
                                 return HttpResponse()
+                            #if (consulta_status(message['sender']['id'],'Minhas funções')==None or consulta_status(message['sender']['id'],'Minhas funções')==1):
+
 
                             response = chatterbot.get_response(message['message']['text'])
                             print(float(response.confidence)*0.01)

@@ -1,1 +1,4 @@
 ngrok http -region=us -hostname=kevinmikio.ngrok.io 8000
+
+--Rodar background
+ngrok http -region=us -hostname=kevinmikio.ngrok.io 8000 > /dev/null &
