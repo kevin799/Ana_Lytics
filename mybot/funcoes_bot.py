@@ -59,6 +59,7 @@ def cadastro(fbid, recevied_message):
         usuario = Usuario.objects.get(id=fbid)
         fb.text_message("Prontinho! Finalizamos o seu cadastro 😊!")
         fb.text_message("Espero que possamos nos dar bem %s" %usuario.nome)
+        funcionalidades_bot(fbid,'Start')
         #atualizando_status(fbid,'Bater ponto')
         return True
 
@@ -98,8 +99,8 @@ def funcionalidades_bot(fbid, recevied_message):
         for i in fucionalidades:
             frase = frase+ str(opcao)+ ' - ' + i.nome+ '\n'
             opcao +=1
-        frase = frase + str(opcao+1) + ' Sair\n '
-        if(consulta_status(fbid,'Minhas funções')==None):
+        frase = frase + str(opcao) + ' Sair\n '
+        if(recevied_message == 'Start'):
             fb.text_message("Sabe... Mesmo sendo um robô 🤖  sei fazer algumas coisas ...")
             fb.text_message("Oha o que estou habilitado a fazer para vc 😎")
             fb.text_message(frase)
@@ -130,7 +131,10 @@ def funcionalidades_bot(fbid, recevied_message):
             atualizando_status(fbid, 'Minhas funções', 1)
             return
         if (consulta_status(fbid, 'Minhas funções') == 1 and consulta_ativo(fbid) == 'Minhas funções'):
-            gerenciador_funcoes(fbid,recevied_message)
+            if(recevied_message in frase):
+                gerenciador_funcoes(fbid,recevied_message,recevied_message)
+            else:
+                funcionalidades(fbid)
 
     except ObjectDoesNotExist:
         #Caso o usuario nao exista na base de colaborador, deve se entrar na excessão para que o usuario tenha acesso somente a funções básicas do bot.
@@ -140,12 +144,12 @@ def funcionalidades_bot(fbid, recevied_message):
         print('nao existe')
 
 
-def gerenciador_funcoes(fbid, nfuncao):
+def gerenciador_funcoes(fbid, nfuncao,recevied_message):
     try:
         usuario = Usuario.objects.get(id=fbid)
         colaborador = Colaboradores.objects.get(email=usuario.email)
         fucionalidades = Funcionalidades_bot.objects.filter(status=1, role=colaborador.id_role)
-        frase = ''
+        frase,funcao = '',''
         opcao = 1
 
         for i in fucionalidades:
@@ -156,15 +160,36 @@ def gerenciador_funcoes(fbid, nfuncao):
             if str(nfuncao) in i:
                 funcao = i[1:]
         if(funcao == 'Bater ponto'):
-            bater_ponto(fbid,'start')
-
+            if(consulta_ativo(fbid)=='Minhas funções'):
+                atualizando_ativo(fbid,'Minhas funções',0)
+                atualizando_ativo(fbid,'Bater ponto', 1)
+                bater_ponto(fbid,'Start')
+            else:
+                bater_ponto(fbid,recevied_message)
+        if(recevied_message == str(opcao)):
+            atualizando_ativo(fbid,consulta_ativo(fbid),0)
     except ObjectDoesNotExist:
         return
 
+def funcionalidades(fbid):
+    fb = FbMessageApi(fbid)
+    try:
+        usuario = Usuario.objects.get(id=fbid)
+        frase = ''
+        opcao = 1
+        colaborador = Colaboradores.objects.get(email=usuario.email)
+        fucionalidades = Funcionalidades_bot.objects.filter(status=1, role=colaborador.id_role)
+        atualizando_ativo(fbid, 'Minhas funções', 1)
+        for i in fucionalidades:
+            frase = frase + str(opcao) + ' - ' + i.nome + '\n'
+            opcao += 1
+        frase = frase + str(opcao) + ' - Sair\n '
+        fb.text_message(frase)
+    except ObjectDoesNotExist:
+        return
 
 def bater_ponto(fbid, recevied_message):
     fb = FbMessageApi(fbid)
-
     qr = [{"content_type": "text",
            "title": "Sim",
            "payload": "Sim"
@@ -185,12 +210,12 @@ def bater_ponto(fbid, recevied_message):
         atualizando_status(fbid, 'Bater ponto', 1)
         return
 
-    if(consulta_status(fbid, 'Bater ponto') == None):
+    if(consulta_status(fbid, 'Bater ponto') == None and recevied_message=='Start'):
         fb.text_message("Deixo te explicar como funciona o sistema de bater ponto... todos os dias, exceto fim de semana, te aviso para bater o ponto tanto na entrada, no almoço e na saída... não se preoculpe... vou sempre te lembrar para bater o ponto ")
         fb.quick_reply_message("Mas claro que você não é obrigado a nada... Você quer que eu te avise para bater o ponto?",qr)
-        atualizando_status(fbid, 'Minhas funções', 0)
-        atualizando_ativo(fbid, consulta_ativo(fbid), 0)
-        atualizando_ativo(fbid, 'Bater ponto', 1)
+        #atualizando_status(fbid, 'Minhas funções', 0)
+        #atualizando_ativo(fbid, consulta_ativo(fbid), 0)
+        #atualizando_ativo(fbid, 'Bater ponto', 1)
         return
     if(recevied_message.upper()== 'NÂO'):
         fb.text_message("Tudo bem... quando você quiser ativar a função basta digitar 'Minhas funções'")
@@ -208,29 +233,151 @@ def bater_ponto(fbid, recevied_message):
                             "title": i.horas,
                             "payload": i.horas
                         })
-        if(recevied_message == 'CLT - 44 Hrs semanais'):
-            cargo = Cargo.objects.get(nome = 'CLT - 44 Hrs semanais')
+        if(recevied_message == 'CLT-44 Hrs sem.'):
+            cargo = Cargo.objects.get(nome = 'CLT-44 Hrs sem.')
             try:
                 usuario_cargo = Usuario_cargo_hora.objects.get(id_usuario = usuario)
-                print('aaaaaaaaaaaaaaaaaaaaaaaaaaa')
-                return
+
+
             except ObjectDoesNotExist:
-                print('bbbbbbbbbbbbbbbbbbbbbbbbbbb')
                 usuario_cargo = Usuario_cargo_hora(id_usuario = usuario,id_cargo = cargo)
                 usuario_cargo.save()
                 fb.quick_reply_message("Que horas você costuma chegar???", lista_horas)
                 return
-        if (recevied_message in horas_brutas):
-            usuario_cargo = Usuario_cargo_hora.objects.get(id_usuario = fbid)
-            usuario_cargo.hora_entrada = recevied_message
-            usuario_cargo.save()
+        try:
+            usuario_cargo = Usuario_cargo_hora.objects.get(id_usuario=usuario)
+            if (
+                    usuario_cargo.hora_entrada != None and usuario_cargo.periodo_entrada != None and usuario_cargo.hora_almoco == None and recevied_message in horas_brutas):
+                usuario_cargo.hora_almoco = recevied_message
+                usuario_cargo.save()
+                aplicando_periodo_almoco(fbid)
+                atualizando_ativo(fbid, 'Bater ponto', 0)
+                fb.text_message("Prontinho! Agora vou sempre te lembrar de bater o seu ponto!")
+                return
+
+            if (recevied_message in ['AM', 'PM']):
+                usuario_cargo.periodo_entrada = recevied_message
+                usuario_cargo.save()
+                fb.quick_reply_message("Estamos quase terminando! Só me diz que horas você costuma almoçar (ou jantar)???",
+                                       lista_hora_almoco(fbid))
+                return
+
+            if (recevied_message in horas_brutas):
+                usuario_cargo.hora_entrada = recevied_message
+                usuario_cargo.save()
+                fb.quick_reply_message("Qual o perido que você entra?", [{"content_type": "text",
+                                                                          "title": 'AM',
+                                                                          "payload": 'AM'
+                                                                          }, {"content_type": "text",
+                                                                              "title": 'PM',
+                                                                              "payload": 'PM'
+                                                                              }])
+                return
+        except ObjectDoesNotExist:
             return
 
 
+def lista_hora_almoco(fbid):
+    try:
+        horas = Lista_Horas.objects.all()
+        horas_brutas = []
+        usuario = Usuario.objects.get(id=fbid)
+        for i in horas:
+            horas_brutas.append(i.horas)
+        usuario_cargo = Usuario_cargo_hora.objects.get(id_usuario=usuario)
+        inicial = 0
+        for i in horas_brutas:
+            if i == usuario_cargo.hora_entrada:
+                pos = inicial
+            inicial+=1
+        horas_brutas = horas_brutas+horas_brutas
+        horas_trabalho = usuario_cargo.id_cargo.horas+1
 
+        horas_disponiveis = horas_brutas[pos+1:pos+horas_trabalho+1]
+        resposta = []
+        for i in horas_disponiveis:
+            resposta.append({"content_type": "text",
+                            "title": i,
+                            "payload": i
+                        })
+
+        return resposta
+    except ObjectDoesNotExist:
+        return
+
+
+def aplicando_periodo_almoco(fbid):
+    try:
+        horas = Lista_Horas.objects.all()
+        horas_brutas = []
+        usuario = Usuario.objects.get(id=fbid)
+        for i in horas:
+            horas_brutas.append(i.horas)
+        usuario_cargo = Usuario_cargo_hora.objects.get(id_usuario=usuario)
+        inicial = 0
+        for i in horas_brutas:
+            if i == usuario_cargo.hora_entrada:
+                pos = inicial
+            inicial += 1
+        horas_brutas = horas_brutas + horas_brutas
+        horas_trabalho = usuario_cargo.id_cargo.horas + 1
+
+        horas_disponiveis = horas_brutas[pos + 1:pos + horas_trabalho + 1]
+
+        if ('12:00' not in horas_disponiveis):
+            usuario_cargo.periodo_almoco = usuario_cargo.periodo_entrada
+            usuario_cargo.save()
+        else:
+            inicial = 0
+            for i in horas_disponiveis:
+                if (i == usuario_cargo.hora_almoco):
+                    pos_alm = inicial
+                if (i == '12:00'):
+                    pos12 = inicial
+
+                inicial +=1
+            if (usuario_cargo.periodo_entrada == 'AM' and pos_alm >= pos12):
+                usuario_cargo.periodo_almoco = 'PM'
+                usuario_cargo.save()
+            else:
+                if (usuario_cargo.periodo_entrada == 'AM' and pos_alm < pos12):
+                    usuario_cargo.periodo_almoco = 'AM'
+                    usuario_cargo.save()
+            if (usuario_cargo.periodo_entrada == 'PM' and pos_alm >= pos12):
+                usuario_cargo.periodo_almoco = 'AM'
+                usuario_cargo.save()
+            else:
+                if (usuario_cargo.periodo_entrada == 'PM' and pos_alm < pos12):
+                    usuario_cargo.periodo_almoco = 'PM'
+                    usuario_cargo.save()
+
+        return horas_disponiveis
+
+    except ObjectDoesNotExist:
+        return
+
+def coleta_posicao_funcao(fbid,nome):
+    try:
+        usuario = Usuario.objects.get(id=fbid)
+        colaborador = Colaboradores.objects.get(email=usuario.email)
+        fucionalidades = Funcionalidades_bot.objects.filter(status=1, role=colaborador.id_role)
+        frase = ''
+        opcao = 1
+        funcao = None
+        for i in fucionalidades:
+            frase = frase + str(opcao) + i.nome + '\n'
+            opcao += 1
+        frase_lista = frase.split('\n')
+        for i in frase_lista:
+            if str(nome) in i:
+                funcao = i[0:1]
+        return funcao
+    except ObjectDoesNotExist:
+        return None
 
 #funcionalidades_bot(100030196033467,'sim')
 #gerenciador_funcoes(100030196033467,2)
 
-bater_ponto(100030196033467,'CLT - 44 Hrs semanais')
+#bater_ponto(100030196033467,'12:00')
 
+#gerenciador_funcoes(100030196033467,2)

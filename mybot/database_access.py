@@ -222,4 +222,3 @@ def terminou_cadastro(id):
     else:
         return False
 
-#print(consulta_status(100030196033467,'Minhas funções'))
