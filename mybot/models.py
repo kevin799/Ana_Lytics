@@ -69,10 +69,7 @@ Obs: Rodar o comando abaixo caso faça alguma modificação na estrutura da tabe
 python manage.py makemigrations mybot
 *Depois de rodar o comando acima rodar: 
 python manage.py migrate
-
-
 '''
-
 class Question(models.Model):
     question_text = models.CharField(max_length=200)
     pub_date = models.DateTimeField('date published')

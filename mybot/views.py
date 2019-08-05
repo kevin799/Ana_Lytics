@@ -104,7 +104,7 @@ class MyBotView(generic.View):
                     # pprint(message)
                     print('postback')
                     try:
-
+                        print('ok')
                         cadastro(message['sender']['id'], message['postback']['payload'])
                     except:
                         return HttpResponse()

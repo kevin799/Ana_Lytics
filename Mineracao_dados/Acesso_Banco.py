@@ -24,7 +24,7 @@ def get():
     return lst
 
 def mysql_save(dic):
-    con = MySQLdb.connect(host="127.0.0.1", user="bot", passwd="#Bot&123", db="bot")
+    con = MySQLdb.connect(host="127.0.0.1", user="bot", passwd="#Bot123", db="bot")
     cursor = con.cursor()
     cluster = Cluster(['127.0.0.1'])
     session = cluster.connect()
@@ -42,7 +42,7 @@ def mysql_save(dic):
     session.shutdown()
 
 
-con = MySQLdb.connect(host="127.0.0.1", user="bot", passwd="#Bot&123", db="bot")
+con = MySQLdb.connect(host="127.0.0.1", user="bot", passwd="#Bot123", db="bot")
 cursor = con.cursor()
 cursor.execute("select id_user,json_dados,id from bot.mybot_mdc_mineracao_dados_cassandra")
 resultado = cursor.fetchall()

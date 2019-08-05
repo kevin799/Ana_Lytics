@@ -124,7 +124,6 @@ https://www.programcreek.com/python/example/52499/django.core.exceptions.ObjectD
 
 '''
 
-
 def existecia_usuario(id):
     try:
         return (Usuario.objects.get(id=id)!=None)
