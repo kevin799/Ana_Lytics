@@ -8,6 +8,7 @@ from django.views import generic
 from django.http.response import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
+from django.shortcuts import render
 
 from Ana_Lytics import settings
 from mybot.funcoes_bot import *
@@ -49,6 +50,13 @@ def index(request):
     cadastro_usuario_cassandra(123456789,'José','ATEU','Email@ateu.com')
     cluster.shutdown()
     return HttpResponse("Hello world")
+
+def bot_on(request):
+    return render(request, "mybot/index.html")
+
+def imagem(request):
+    return render(request, "mybot/image.html")
+
 
 class MyBotView(generic.View):
 

@@ -23,5 +23,7 @@ from mybot import views
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^fb_mybot/', include('mybot.urls')),
-    url('index/', views.index, name='index'),
+    url(r'^', include('mybot.urls')),
+    #url('index/', views.index, name='index'),
+    url('imagem/', views.imagem, name='imagem'),
 ]

@@ -26,7 +26,7 @@ SECRET_KEY = 'jliy6jw4h7a+@6@fj+s(((08#_6&ib%x9%b$j-3p^hr#k^_fhz'
 DEBUG = True
 '''ALLOWED_HOSTS possibilita com que o bot reconheça somente este dominio, fazendo com que a aplicação não 
 dê deploy enquanto não ativar o tunelamento feito polo ngrok'''
-ALLOWED_HOSTS = ['kevinmikio.ngrok.io']
+ALLOWED_HOSTS = ['kevinmikio.ngrok.io','127.0.0.1']
 
 
 # Application definition
@@ -59,7 +59,9 @@ ROOT_URLCONF = 'Ana_Lytics.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [
+            "{}/templates".format(BASE_DIR)
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -192,3 +194,11 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
 
 STATIC_URL = '/static/'
+
+STATICFILES_DIRS =[
+    os.path.join(BASE_DIR,"static")
+]
+
+MEDIA_URL ="/media/"
+
+MEDIA_ROOT = "{}/media".format(BASE_DIR)
