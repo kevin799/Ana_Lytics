@@ -57,6 +57,8 @@ def bot_on(request):
 def imagem(request):
     return render(request, "mybot/image.html")
 
+def acao_inter(request):
+    return render(request, "mybot/acaoInter.html")
 
 class MyBotView(generic.View):
 

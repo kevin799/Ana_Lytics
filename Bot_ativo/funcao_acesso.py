@@ -551,6 +551,8 @@ def ponto_volta_almoco():
 def bater_ponto(fbid):
     fb = FbMessageApi(fbid)
     fb.text_message("Oieee!!! Não esquece de bater o ponto :)!")
+    fb.text_message("...")
+    envia_print(fbid)
 
 def ida_almoco(fbid):
     fb = FbMessageApi(fbid)
@@ -559,3 +561,9 @@ def ida_almoco(fbid):
 def volta_almoco(fbid):
     fb = FbMessageApi(fbid)
     fb.text_message("É triste te trazer essa notícia... mas acabou o intervalo 😭... Mas nâo esquece de bater o ponto...")
+
+def envia_print(fbid):
+    fb = FbMessageApi(fbid)
+    fb.text_message(
+        "Futuro painel de bordo!")
+    fb.image_message("https://kevinmikio.ngrok.io/static/img/show.jpg")

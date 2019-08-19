@@ -26,4 +26,5 @@ urlpatterns = [
     url(r'^', include('mybot.urls')),
     #url('index/', views.index, name='index'),
     url('imagem/', views.imagem, name='imagem'),
+    url('acao/', views.acao_inter, name='acao'),
 ]
