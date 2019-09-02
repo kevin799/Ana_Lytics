@@ -86,19 +86,19 @@ class Choice_aa(models.Model):
     choice_text = models.CharField(max_length=200)
     votes = models.IntegerField(default=0)
 
-class Usuario(models.Model):
-    id = models.BigIntegerField(primary_key=True,max_length=None)
-    nome = models.CharField(max_length=150,null=True)
-    email = models.CharField(max_length=200,null=True)
-    status_acesso = models.IntegerField(null=True)
-
-
 class Area(models.Model):
     setor = models.CharField(max_length=100)
 
 
 class Role(models.Model):
     role = models.CharField(max_length=100)
+
+class Usuario(models.Model):
+    id = models.BigIntegerField(primary_key=True,max_length=None)
+    nome = models.CharField(max_length=150,null=True)
+    email = models.CharField(max_length=200,null=True)
+    status_acesso = models.IntegerField(null=True)
+    role = models.ForeignKey(Role,on_delete=models.CASCADE,null=True)
 
 class Colaboradores(models.Model):
     nome = models.CharField(max_length=200,null=True)

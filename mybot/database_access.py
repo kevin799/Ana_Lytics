@@ -155,10 +155,13 @@ def cadastro_usuario(id,texto):
                     colaborador = Colaboradores.objects.get(email = texto)
                     usuario.nome = colaborador.nome
                     usuario.email = colaborador.email
+                    usuario.role = colaborador.id_role
                     usuario.save()
                     return 1
                 except ObjectDoesNotExist:
+                    role = Role.objects.get(role='BASIC')
                     usuario.email = texto
+                    usuario.role = role
                     usuario.save()
                     return 2
             return -1

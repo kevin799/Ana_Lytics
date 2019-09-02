@@ -138,10 +138,54 @@ def funcionalidades_bot(fbid, recevied_message):
 
     except ObjectDoesNotExist:
         #Caso o usuario nao exista na base de colaborador, deve se entrar na excessão para que o usuario tenha acesso somente a funções básicas do bot.
-        fucionalidades = Funcionalidades_bot.objects.filter(status=1, role=1)
+        usuario = Usuario.objects.get(id=fbid)
+        role = Role.objects.get(role = 'BASIC')
+        frase = ''
+        opcao = 1
+        fucionalidades = Funcionalidades_bot.objects.filter(status=1, role=role.id)
+        atualizando_ativo(fbid, 'Minhas funções', 1)
         for i in fucionalidades:
-            frase = frase + i.nome+ '\n'
-        print('nao existe')
+            frase = frase + str(opcao) + ' - ' + i.nome + '\n'
+            opcao += 1
+        frase = frase + str(opcao) + ' Sair\n'
+        if (recevied_message == 'Start'):
+            fb.text_message("Sabe... Mesmo sendo um robô 🤖  sei fazer algumas coisas ...")
+            fb.text_message("Oha o que estou habilitado a fazer para vc 😎")
+            fb.text_message(frase)
+            qr = [{"content_type": "text",
+                   "title": "Sim",
+                   "payload": "Sim"
+                   },
+                  {"content_type": "text",
+                   "title": "Não",
+                   "payload": "Não"
+                   }]
+            fb.quick_reply_message("Você quer uma explicação de como funciona as 'Minhas funções'???", qr)
+            atualizando_status(fbid, 'Minhas funções', 2)
+            return
+        if (consulta_status(fbid, 'Minhas funções') == 2 and recevied_message.upper() == 'SIM'):
+            fb.text_message("Vou te ensinar como usar as funções que te mostrei 😉")
+            fb.text_message(
+                "Sempre que vc digitar *Minhas funções* ou algo parecido vou sempre te dar uma lista assim:")
+            fb.text_message(frase)
+            frase_lista = frase.split('\n')
+            for i in frase_lista:
+                if "Bater ponto".upper() in i.upper():
+                    numero = i[0]
+            qr = [{"content_type": "text",
+                   "title": str(numero),
+                   "payload": str(numero)
+                   }]
+            fb.quick_reply_message(
+                "Depois que eu te mandar a lista basta digitar o numero que indica a função... Sugiro que digite a função de 'bater ponto' ningem gosta de ficar arrumando lista de ponto neh ",
+                qr)
+            atualizando_status(fbid, 'Minhas funções', 1)
+            return
+        if (consulta_status(fbid, 'Minhas funções') == 1 and consulta_ativo(fbid) == 'Minhas funções'):
+            if(recevied_message in frase):
+                gerenciador_funcoes(fbid,recevied_message,recevied_message)
+            else:
+                funcionalidades(fbid)
 
 
 def gerenciador_funcoes(fbid, nfuncao,recevied_message):
