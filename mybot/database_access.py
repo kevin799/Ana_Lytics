@@ -128,15 +128,18 @@ def existecia_usuario(id):
     try:
         return (Usuario.objects.get(id=id)!=None)
     except ObjectDoesNotExist:
-        insert = Usuario(id= id,status_acesso=2)
+        role = Role.objects.get(role = 'BASIC')
+        insert = Usuario(id= id,status_acesso=2,role = role)
         insert.save()
         return (Usuario.objects.get(id=id)!=None)
 
 def primeiro_acesso(id):
     try:
         usuario = Usuario.objects.get(id=id)
+        role = Role.objects.get(role='BASIC')
         if(usuario.status_acesso == 2):
-            usuario.status_acesso=0
+            usuario.status_acesso = 0
+            usuario.role = role
             usuario.save()
             return True
         return False
@@ -153,6 +156,11 @@ def cadastro_usuario(id,texto):
 
                 try:
                     colaborador = Colaboradores.objects.get(email = texto)
+                    obj =  colaborador.id_role
+                    usu_func = Usuario_Funcao.objects.filter(id_usuario = usuario)
+                    for i in usu_func:
+                        i.permissao = obj.id
+                        i.save()
                     usuario.nome = colaborador.nome
                     usuario.email = colaborador.email
                     usuario.role = colaborador.id_role
