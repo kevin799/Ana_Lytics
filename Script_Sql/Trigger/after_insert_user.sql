@@ -11,5 +11,5 @@ select distinct A.id,
                 bot.mybot_usuario A,
                 bot.mybot_funcionalidades_bot B
 				where
-                A.id not in (select id_usuario_id from bot.mybot_usuario_funcao)
+                A.id not in (select id_usuario_id from bot.mybot_usuario_funcao);
 

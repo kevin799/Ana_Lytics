@@ -55,7 +55,7 @@ def cadastro(fbid, recevied_message):
         fb.quick_reply_message("Que tal começarmos o seu cadastro agora 🤔???", qr)
         return True
     resposta = cadastro_usuario(fbid, recevied_message)
-    if(resposta ==1 or resposta == 3):
+    if(resposta ==1 or resposta == 5):
         usuario = Usuario.objects.get(id=fbid)
         fb.text_message("Prontinho! Finalizamos o seu cadastro 😊!")
         fb.text_message("Espero que possamos nos dar bem %s" %usuario.nome)
@@ -69,11 +69,17 @@ def cadastro(fbid, recevied_message):
     if(resposta == 2):
         fb.text_message("Como você se chama?🤔")
         return True
-    if(resposta==4):
-        fb.text_message("Pode comemorar meu caro xovi")
+    if(resposta == 3):
+        area = Area.objects.all()
+        lista_area = []
+        for i in area:
+            lista_area.append({"content_type": "text",
+                                "title": i.setor,
+                                "payload": i.setor
+                                })
+        fb.quick_reply_message("Qual a sua área?",lista_area)
         #atualizando_status(fbid, 'Bater ponto')
-        return False
-
+        return True
 
 
 def treinar(chatterbot):
@@ -94,10 +100,10 @@ def funcionalidades_bot(fbid, recevied_message):
         frase = ''
         opcao = 1
         colaborador = Colaboradores.objects.get(email = usuario.email)
-        fucionalidades = Funcionalidades_bot.objects.filter(status=1,role = colaborador.id_role)
+        fucionalidades = Funcionalidade_Role_Areas.objects.filter(id_area=colaborador.id_area, id_role=colaborador.id_role)
         atualizando_ativo(fbid, 'Minhas funções', 1)
         for i in fucionalidades:
-            frase = frase+ str(opcao)+ ' - ' + i.nome+ '\n'
+            frase = frase+ str(opcao)+ ' - ' + i.id_funcionalidade.nome+ '\n'
             opcao +=1
         frase = frase + str(opcao) + ' Sair\n '
         if(recevied_message == 'Start'):
@@ -139,13 +145,12 @@ def funcionalidades_bot(fbid, recevied_message):
     except ObjectDoesNotExist:
         #Caso o usuario nao exista na base de colaborador, deve se entrar na excessão para que o usuario tenha acesso somente a funções básicas do bot.
         usuario = Usuario.objects.get(id=fbid)
-        role = Role.objects.get(role = 'BASIC')
         frase = ''
         opcao = 1
-        fucionalidades = Funcionalidades_bot.objects.filter(status=1, role=role.id)
+        fucionalidades = Funcionalidade_Role_Areas.objects.filter(id_area=usuario.area, id_role=usuario.role)
         atualizando_ativo(fbid, 'Minhas funções', 1)
         for i in fucionalidades:
-            frase = frase + str(opcao) + ' - ' + i.nome + '\n'
+            frase = frase + str(opcao) + ' - ' + i.id_funcionalidade.nome + '\n'
             opcao += 1
         frase = frase + str(opcao) + ' Sair\n'
         if (recevied_message == 'Start'):
@@ -192,12 +197,12 @@ def gerenciador_funcoes(fbid, nfuncao,recevied_message):
     try:
         usuario = Usuario.objects.get(id=fbid)
         colaborador = Colaboradores.objects.get(email=usuario.email)
-        fucionalidades = Funcionalidades_bot.objects.filter(status=1, role=colaborador.id_role)
+        fucionalidades = Funcionalidade_Role_Areas.objects.filter(id_area=colaborador.id_area, id_role=colaborador.id_role)
         frase,funcao = '',''
         opcao = 1
 
         for i in fucionalidades:
-            frase = frase+ str(opcao) + i.nome+ '\n'
+            frase = frase+ str(opcao) + i.id_funcionalidade.nome+ '\n'
             opcao +=1
         frase_lista = frase.split('\n')
         for i in frase_lista:
@@ -213,6 +218,29 @@ def gerenciador_funcoes(fbid, nfuncao,recevied_message):
         if(recevied_message == str(opcao)):
             atualizando_ativo(fbid,consulta_ativo(fbid),0)
     except ObjectDoesNotExist:
+        #Entra nesta condição caso o usuario nao esteja contido na base de colaboradores.
+        usuario = Usuario.objects.get(id=fbid)
+        fucionalidades = Funcionalidade_Role_Areas.objects.filter(id_area=usuario.area, id_role=usuario.role)
+        frase, funcao = '', ''
+        opcao = 1
+
+        for i in fucionalidades:
+            frase = frase + str(opcao) + i.id_funcionalidade.nome + '\n'
+            opcao += 1
+        frase_lista = frase.split('\n')
+        for i in frase_lista:
+            if str(nfuncao) in i:
+                funcao = i[1:]
+        if (funcao == 'Bater ponto'):
+            if (consulta_ativo(fbid) == 'Minhas funções'):
+                atualizando_ativo(fbid, 'Minhas funções', 0)
+                atualizando_ativo(fbid, 'Bater ponto', 1)
+                bater_ponto(fbid, 'Start')
+            else:
+                bater_ponto(fbid, recevied_message)
+        if (recevied_message == str(opcao)):
+            atualizando_ativo(fbid, consulta_ativo(fbid), 0)
+
         return
 
 def funcionalidades(fbid):
@@ -222,14 +250,24 @@ def funcionalidades(fbid):
         frase = ''
         opcao = 1
         colaborador = Colaboradores.objects.get(email=usuario.email)
-        fucionalidades = Funcionalidades_bot.objects.filter(status=1, role=colaborador.id_role)
+        fucionalidades = Funcionalidade_Role_Areas.objects.filter(id_area=colaborador.id_area, id_role=colaborador.id_role)
         atualizando_ativo(fbid, 'Minhas funções', 1)
         for i in fucionalidades:
-            frase = frase + str(opcao) + ' - ' + i.nome + '\n'
+            frase = frase + str(opcao) + ' - ' + i.id_funcionalidade.nome + '\n'
             opcao += 1
         frase = frase + str(opcao) + ' - Sair\n '
         fb.text_message(frase)
     except ObjectDoesNotExist:
+        usuario = Usuario.objects.get(id=fbid)
+        fucionalidades = Funcionalidade_Role_Areas.objects.filter(id_area=usuario.area, id_role=usuario.role)
+        frase = ''
+        opcao = 1
+        atualizando_ativo(fbid, 'Minhas funções', 1)
+        for i in fucionalidades:
+            frase = frase + str(opcao) + ' - ' + i.id_funcionalidade.nome + '\n'
+            opcao += 1
+        frase = frase + str(opcao) + ' - Sair\n '
+        fb.text_message(frase)
         return
 
 def bater_ponto(fbid, recevied_message):
@@ -404,12 +442,12 @@ def coleta_posicao_funcao(fbid,nome):
     try:
         usuario = Usuario.objects.get(id=fbid)
         colaborador = Colaboradores.objects.get(email=usuario.email)
-        fucionalidades = Funcionalidades_bot.objects.filter(status=1, role=colaborador.id_role)
+        fucionalidades = Funcionalidade_Role_Areas.objects.filter(id_area=colaborador.id_area, id_role=colaborador.id_role)
         frase = ''
         opcao = 1
         funcao = None
         for i in fucionalidades:
-            frase = frase + str(opcao) + i.nome + '\n'
+            frase = frase + str(opcao) + i.id_funcionalidade.nome + '\n'
             opcao += 1
         frase_lista = frase.split('\n')
         for i in frase_lista:
@@ -417,6 +455,19 @@ def coleta_posicao_funcao(fbid,nome):
                 funcao = i[0:1]
         return funcao
     except ObjectDoesNotExist:
+        usuario = Usuario.objects.get(id=fbid)
+        fucionalidades = Funcionalidade_Role_Areas.objects.filter(id_area=usuario.area, id_role=usuario.role)
+        frase = ''
+        opcao = 1
+        funcao = None
+        for i in fucionalidades:
+            frase = frase + str(opcao) + i.id_funcionalidade.nome + '\n'
+            opcao += 1
+        frase_lista = frase.split('\n')
+        for i in frase_lista:
+            if str(nome) in i:
+                funcao = i[0:1]
+        return funcao
         return None
 
 #funcionalidades_bot(100030196033467,'sim')
@@ -425,3 +476,4 @@ def coleta_posicao_funcao(fbid,nome):
 #bater_ponto(100030196033467,'12:00')
 
 #gerenciador_funcoes(100030196033467,2)
+

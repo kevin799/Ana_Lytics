@@ -99,6 +99,7 @@ class Usuario(models.Model):
     email = models.CharField(max_length=200,null=True)
     status_acesso = models.IntegerField(null=True)
     role = models.ForeignKey(Role,on_delete=models.CASCADE,null=True)
+    area = models.ForeignKey(Area,on_delete=models.CASCADE,null=True)
 
 class Colaboradores(models.Model):
     nome = models.CharField(max_length=200,null=True)
@@ -108,7 +109,6 @@ class Colaboradores(models.Model):
 
 class Funcionalidades_bot(models.Model):
     nome = models.CharField(max_length=200)
-    role = models.ForeignKey(Role,on_delete=models.CASCADE)
     status = models.IntegerField(default=0)
 
 class Usuario_Funcao(models.Model):
@@ -135,6 +135,11 @@ class Usuario_cargo_hora(models.Model):
     periodo_entrada = models.CharField(max_length=10,null=True)
     hora_almoco = models.CharField(max_length=15,null=True)
     periodo_almoco = models.CharField(max_length=10,null=True)
+
+class Funcionalidade_Role_Areas(models.Model):
+    id_area = models.ForeignKey(Area, on_delete=models.CASCADE)
+    id_role = models.ForeignKey(Role, on_delete=models.CASCADE)
+    id_funcionalidade = models.ForeignKey(Funcionalidades_bot, on_delete=models.CASCADE)
 
 
 

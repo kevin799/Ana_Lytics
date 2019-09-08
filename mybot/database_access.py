@@ -8,7 +8,7 @@ import datetime
 from django.core.exceptions import ObjectDoesNotExist
 
 '''
-Comandos para usar dentro do Cassandra
+Comandos para usar dentro do Cassandra  
 https://stackoverflow.com/questions/38696316/how-to-list-all-cassandra-tables
 
 Comando para acesso ao banco:
@@ -164,6 +164,7 @@ def cadastro_usuario(id,texto):
                     usuario.nome = colaborador.nome
                     usuario.email = colaborador.email
                     usuario.role = colaborador.id_role
+                    usuario.area = colaborador.id_area
                     usuario.save()
                     return 1
                 except ObjectDoesNotExist:
@@ -177,7 +178,15 @@ def cadastro_usuario(id,texto):
             usuario.nome=texto
             usuario.save()
             return 3
-        return 4
+        if (usuario.area == None):
+            area = Area.objects.all()
+            for i in area:
+                if i.setor == texto:
+                    usuario.area = i
+                    usuario.save()
+                    return 5
+            return 4
+
 
 def consulta_status(id,nome_funcao):
     try:
@@ -227,8 +236,9 @@ def consulta_ativo(id):
 
 def terminou_cadastro(id):
     usuario = Usuario.objects.get(id=id)
-    if (usuario.nome == None or usuario.email == None or usuario.status_acesso!=1):
+    if (usuario.nome == None or usuario.email == None or usuario.status_acesso!=1 or usuario.area == None):
         return True
     else:
         return False
+
 

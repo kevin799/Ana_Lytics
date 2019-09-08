@@ -24,6 +24,7 @@ from django.http import HttpResponse
 from mybot.database_access import *
 from chatterbot.trainers import ListTrainer
 from chatterbot import ChatBot
+from mybot.Area_teste.Teste import *
 '''
 def post_facebook_message(fbid, recevied_message):
     # user_details_url = "https://graph.facebook.com/v2.6/%s" % fbid
