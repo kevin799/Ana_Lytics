@@ -40,7 +40,7 @@ chatterbot = ChatBot('Ana Lytics',read_only=True,
     logic_adapters=[
         "chatterbot.logic.BestMatch"
     ])
-treinar(chatterbot)
+#treinar(chatterbot)
 
 def index(request):
     cluster = Cluster(['127.0.0.1'])
@@ -60,6 +60,9 @@ def imagem(request):
 
 def acao_inter(request):
     return render(request, "mybot/acaoInter.html")
+
+def sas_print(request):
+    return render(request,"mybot/painelBordo.html")
 
 class MyBotView(generic.View):
 
@@ -90,7 +93,7 @@ class MyBotView(generic.View):
 
                     #try:
                     fb = FbMessageApi(message['sender']['id'])
-                    if(existecia_usuario(message['sender']['id'])):
+                    '''if(existecia_usuario(message['sender']['id'])):
                         if (terminou_cadastro(message['sender']['id'])):
                             cadastro(message['sender']['id'], message['message']['text'])
                             return HttpResponse()
@@ -106,7 +109,7 @@ class MyBotView(generic.View):
                             fb.text_message(str(response))
                         else:
                             fb.text_message('Nao sei ainda o que responder :(')
-
+'''
 
                     '''except:
                         print('exept')
@@ -116,7 +119,7 @@ class MyBotView(generic.View):
                     print('postback')
                     try:
                         print('ok')
-                        cadastro(message['sender']['id'], message['postback']['payload'])
+                        #cadastro(message['sender']['id'], message['postback']['payload'])
                     except:
                         return HttpResponse()
         save_conversation_flow(message['sender']['id'], str(incoming_message))

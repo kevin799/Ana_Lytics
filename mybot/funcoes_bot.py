@@ -6,7 +6,7 @@ from mybot.database_access import *
 from mybot.models import *
 from django.core.exceptions import ObjectDoesNotExist
 
-
+'''
 def cadastro(fbid, recevied_message):
     # user_details_url = "https://graph.facebook.com/v2.6/%s" % fbid
     # user_details_params = {'fields': 'first_name,last_name,profile_pic', 'access_token': PAGE_ACCESS_TOKEN}
@@ -470,6 +470,8 @@ def coleta_posicao_funcao(fbid,nome):
         return funcao
         return None
 
+
+
 #funcionalidades_bot(100030196033467,'sim')
 #gerenciador_funcoes(100030196033467,2)
 
@@ -477,3 +479,4 @@ def coleta_posicao_funcao(fbid,nome):
 
 #gerenciador_funcoes(100030196033467,2)
 
+'''

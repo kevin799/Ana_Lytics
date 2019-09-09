@@ -1,7 +1,8 @@
 from mybot.messenger_api import *
 from mybot.database_access import *
 from mybot.models import *
-
+from django.db.models import Max
+'''
 print('------------Area Teste--------------')
 print (consulta_ativo(100030196033467))
 print('--------------------------')
@@ -37,7 +38,7 @@ print('Consulta ativo')
 print(consulta_ativo(100030196033467))
 
 print(consulta_status(100030196033467, 'Bater ponto'))
-'''
+
 resposta = cadastro_usuario(100030196033467, 'ANALYTICS')
 print('Resposta:')
 print(resposta)
@@ -62,3 +63,14 @@ for i in area:
     if i.setor == 'ANALYTICS':
         print('ok')
         usuario.area = i'''
+'''
+img = Imagem_Relatorio.objects.filter(descricao = 'Painel de bordo')
+
+img = img.aggregate(Max('data'))['data__max']
+
+#img2 = Imagem_Relatorio.objects.filter(data = img)
+
+print('------------Agregação max data------------')
+img2 = Imagem_Relatorio.objects.filter(data = img)
+print(img2[0].data)
+print('------------------------------------------')'''

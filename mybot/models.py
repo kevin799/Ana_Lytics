@@ -141,7 +141,15 @@ class Funcionalidade_Role_Areas(models.Model):
     id_role = models.ForeignKey(Role, on_delete=models.CASCADE)
     id_funcionalidade = models.ForeignKey(Funcionalidades_bot, on_delete=models.CASCADE)
 
+class Imagem_Relatorio(models.Model):
+    data = models.DateTimeField()
+    descricao = models.CharField(max_length=100)
+    enviado = models.IntegerField()
 
+class Confirmacao_relatorio(models.Model):
+    imagem = models.ForeignKey(Imagem_Relatorio,on_delete=models.CASCADE)
+    usuario = models.ForeignKey(Usuario,on_delete=models.CASCADE)
+    flag_confirmacao = models.IntegerField()
 
 '''------------------Mineracao dados cassandra--------------------------'''
 

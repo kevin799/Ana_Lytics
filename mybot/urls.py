@@ -8,4 +8,5 @@ urlpatterns = [
     url(r'^$', views.bot_on, name='index'),
     url(r'^/imagem/', views.imagem, name='imagem'),
     url(r'^/acao/', views.acao_inter, name='acao'),
+    url(r'^/painelBordo/', views.sas_print, name='sas'),
 ]
