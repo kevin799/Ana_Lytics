@@ -1,5 +1,6 @@
 from funcao_acesso import *
 from messenger_api import *
+from funcionalidade_ativo import *
 
 
 '''for i in get_list_user():
@@ -13,3 +14,7 @@ for i in ponto_ida_almoco():
 
 for i in ponto_volta_almoco():
     volta_almoco(i)
+
+for i in retorna_admins_analytics():
+    envio_prints_base_validacao(i)
+    status_ativo_de_acordo(i)

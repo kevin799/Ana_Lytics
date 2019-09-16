@@ -5,7 +5,9 @@ from mybot.messenger_api import *
 from mybot.database_access import *
 from mybot.models import *
 from django.core.exceptions import ObjectDoesNotExist
-
+from django.db.models import Max
+import datetime
+import time
 
 def cadastro(fbid, recevied_message):
     # user_details_url = "https://graph.facebook.com/v2.6/%s" % fbid
@@ -205,9 +207,13 @@ def gerenciador_funcoes(fbid, nfuncao,recevied_message):
             frase = frase+ str(opcao) + i.id_funcionalidade.nome+ '\n'
             opcao +=1
         frase_lista = frase.split('\n')
+        print('------------------------------------')
+        print(frase_lista)
         for i in frase_lista:
             if str(nfuncao) in i:
                 funcao = i[1:]
+        print('------------------------------------')
+        print(funcao)
         if(funcao == 'Bater ponto'):
             if(consulta_ativo(fbid)=='Minhas funções'):
                 atualizando_ativo(fbid,'Minhas funções',0)
@@ -215,8 +221,13 @@ def gerenciador_funcoes(fbid, nfuncao,recevied_message):
                 bater_ponto(fbid,'Start')
             else:
                 bater_ponto(fbid,recevied_message)
+        if(funcao == 'De acordo Painel de bordo'):
+            envio_relatorio(fbid,recevied_message)
+            print('--------entrou aq na funcao---------')
+            return
         if(recevied_message == str(opcao)):
             atualizando_ativo(fbid,consulta_ativo(fbid),0)
+            print('desgraca de erro')
     except ObjectDoesNotExist:
         #Entra nesta condição caso o usuario nao esteja contido na base de colaboradores.
         usuario = Usuario.objects.get(id=fbid)
@@ -470,8 +481,88 @@ def coleta_posicao_funcao(fbid,nome):
         return funcao
         return None
 
+def envio_relatorio(fbid,recevied_message):
+    try:
+        usuario = Usuario.objects.get(id=fbid)
+        print('-----entrou no envio------')
+        print(datetime.datetime.now())
+        if(usuario.area.setor == 'ANALYTICS' ):
+            painel_de_bordo(fbid,recevied_message)
+            return
+    except ObjectDoesNotExist:
+        return
+
+def painel_de_bordo(fbid,recevied_message):
+    fb = FbMessageApi(fbid)
+    try:
+        print( 'nao sei pq nao termina')
+        print(datetime.datetime.now())
+        usuarios = Usuario.objects.get(id=fbid)
+        img = Imagem_Relatorio.objects.filter(descricao='Painel de bordo')
+        img_max = img.aggregate(Max('data'))['data__max']
+        relatorio = Imagem_Relatorio.objects.get(data=img_max,descricao='Painel de bordo')
+
+        if (usuarios.role == Role.objects.get(role='ADMIN')):
+            print('-------------entrou no if admin----------------')
+            print(datetime.datetime.now())
+            if (relatorio.enviado == 0 and relatorio.data.date() == datetime.datetime.now().date() and recevied_message.upper() == 'TA ERRADO!ARRUMAR!'):
+                fb.text_message("Vou enviar mais tarde então...")
+                atualiza_status_relatorio('Painel de bordo',-1)
+                atualizando_ativo(fbid, 'De acordo Painel de bordo', 0)
+                atualiza_tab_conf(fbid,relatorio.id,-1)
+                return
+
+            if (relatorio.enviado == 0 and relatorio.data.date() == datetime.datetime.now().date() and recevied_message.upper() == 'PODE ENVIAR!'):
+                fb.text_message("Vou esperar todos os acordos para o envio!")
+                atualiza_status_relatorio('Painel de bordo', 1)
+                atualizando_ativo(fbid, 'De acordo Painel de bordo', 0)
+                atualiza_tab_conf(fbid, relatorio.id, 1)
+                return
 
 
+            if (relatorio.enviado == 0 and relatorio.data.date() == datetime.datetime.now().date() and recevied_message.upper() != 'PODE ENVIAR!' ):
+                fb.text_message("Painel de bordo")
+                fb.image_message("https://kevinmikio.ngrok.io/static/img/SAS.jpg")
+                fb.quick_reply_message("Responda o mais rapido o possivel ", [{"content_type": "text",
+                                                                          "title": 'Pode enviar!',
+                                                                          "payload": 'Pode enviar!'
+                                                                          }, {"content_type": "text",
+                                                                              "title": 'Ta errado!Arrumar!',
+                                                                              "payload": 'Ta errado!Arrumar!'
+                                                                              }])
+                return
+
+
+        return
+    except ObjectDoesNotExist:
+        return
+
+def envio_prints_base_validacao(fbid):
+    fb = FbMessageApi(fbid)
+    if (consulta_confirmacao_relatorio('Painel Executivo', fbid) == 0 and consulta_confirmacao_relatorio('FPD',fbid) == 0
+            and consulta_confirmacao_relatorio('PDD', fbid) == 0):
+        print('--------entrou no envio dos prints----------')
+        print(datetime.datetime.now())
+        '''if(consulta_ativo(fbid) == None):
+            atualizando_ativo(fbid, 'De acordo Painel de bordo', 1)
+        else:
+
+            atualizando_ativo(fbid, 'De acordo Painel de bordo', 1)
+        '''
+        fb.text_message("Valide o paniel de bordo pfv...")
+        if (consulta_confirmacao_relatorio('Painel Executivo', fbid) == 0):
+            fb.text_message("Painel Executivo")
+            fb.image_message('http://kevinmikio.ngrok.io/static/img/PainelExecutivo.png')
+            atualiza_confirmacao_relatorio('Painel Executivo', fbid, 1)
+        if (consulta_confirmacao_relatorio('FPD', fbid) == 0):
+            fb.text_message("FPD")
+            fb.image_message('http://kevinmikio.ngrok.io/static/img/FPD.png')
+            atualiza_confirmacao_relatorio('FPD', fbid, 1)
+        if (consulta_confirmacao_relatorio('PDD', fbid) == 0):
+            fb.text_message("PDD")
+            fb.image_message('http://kevinmikio.ngrok.io/static/img/Pdd.png')
+            atualiza_confirmacao_relatorio('PDD', fbid, 1)
+    return
 #funcionalidades_bot(100030196033467,'sim')
 #gerenciador_funcoes(100030196033467,2)
 

@@ -9,4 +9,8 @@ urlpatterns = [
     url(r'^/imagem/', views.imagem, name='imagem'),
     url(r'^/acao/', views.acao_inter, name='acao'),
     url(r'^/painelBordo/', views.sas_print, name='sas'),
+    url(r'^/painelExecutivo/', views.painelExecutivo_print, name='painelExecutivo'),
+    url(r'^/pdd/', views.pdd_print, name='pdd'),
+    url(r'^/fpd/', views.fpd_print, name='fpd'),
+    url(r'^/ipf/', views.ipf_print, name='ipf'),
 ]

@@ -64,6 +64,18 @@ def acao_inter(request):
 def sas_print(request):
     return render(request,"mybot/painelBordo.html")
 
+def painelExecutivo_print(request):
+    return render(request,"mybot/painelExecutivo.html")
+
+def pdd_print(request):
+    return render(request,"mybot/pdd.html")
+
+def fpd_print(request):
+    return render(request,"mybot/fpd.html")
+
+def ipf_print(request):
+    return render(request,"mybot/ipf.html")
+
 class MyBotView(generic.View):
 
 
@@ -80,7 +92,7 @@ class MyBotView(generic.View):
     def post(self, request, *args, **kwargs):
         incoming_message = json.loads(self.request.body.decode('utf-8'))
 
-        print(incoming_message)
+        #print(incoming_message)
         for entry in incoming_message['entry']:
             for message in entry['messaging']:
                 if 'message' in message:
@@ -91,29 +103,31 @@ class MyBotView(generic.View):
 
 
                     '''!!!!!!!!!!!!!  VOLTAR TRY PELO AMOR DE DEUS   !!!!!!!!!'''
-                    #try:
-                    fb = FbMessageApi(message['sender']['id'])
-                    if(existecia_usuario(message['sender']['id'])):
-                        if (terminou_cadastro(message['sender']['id'])):
-                            cadastro(message['sender']['id'], message['message']['text'])
-                            return HttpResponse()
-                        if (message['message']['text']=="funcionalidade" or consulta_ativo(message['sender']['id'])=='Minhas funções'):
-                            funcionalidades_bot(message['sender']['id'],message['message']['text'])
-                            return HttpResponse()
-                        if (consulta_ativo(message['sender']['id'])!= None):
-                            gerenciador_funcoes(message['sender']['id'],coleta_posicao_funcao(message['sender']['id'],consulta_ativo(message['sender']['id'])),message['message']['text'])
-                            return HttpResponse()
-                        response = chatterbot.get_response(message['message']['text'])
-                        print(float(response.confidence)*0.01)
-                        if float(response.confidence)>0.5:
-                            fb.text_message(str(response))
-                        else:
-                            fb.text_message('Nao sei ainda o que responder :(')
+                    try:
+                        fb = FbMessageApi(message['sender']['id'])
+                        if(existecia_usuario(message['sender']['id'])):
+                            if (terminou_cadastro(message['sender']['id'])):
+                                cadastro(message['sender']['id'], message['message']['text'])
+                                return HttpResponse()
+                            if (message['message']['text']=="funcionalidade" or consulta_ativo(message['sender']['id'])=='Minhas funções'):
+                                funcionalidades_bot(message['sender']['id'],message['message']['text'])
+                                return HttpResponse()
+                            if (consulta_ativo(message['sender']['id'])!= None):
+                                print('chamou gerenciador de funcao na view')
+                                gerenciador_funcoes(message['sender']['id'],coleta_posicao_funcao(message['sender']['id'],consulta_ativo(message['sender']['id'])),message['message']['text'])
+                                break
+                                return HttpResponse()
+                            response = chatterbot.get_response(message['message']['text'])
+                            print(float(response.confidence)*0.01)
+                            if float(response.confidence)>0.5:
+                                fb.text_message(str(response))
+                            else:
+                                fb.text_message('Nao sei ainda o que responder :(')
 
 
-                    '''except:
+                    except:
                         print('exept')
-                        return HttpResponse()'''
+                        return HttpResponse()
                 if 'postback' in message:
                     # pprint(message)
                     print('postback')

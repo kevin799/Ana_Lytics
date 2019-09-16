@@ -28,4 +28,8 @@ urlpatterns = [
     url('imagem/', views.imagem, name='imagem'),
     url('acao/', views.acao_inter, name='acao'),
     url('painelBordo/', views.sas_print, name='sas'),
+    url('painelExecutivo/', views.painelExecutivo_print, name='painelExecutivo'),
+    url('pdd/', views.pdd_print, name='pdd'),
+    url('fpd/', views.fpd_print, name='fpd'),
+    url('ipf/', views.ipf_print, name='ipf'),
 ]

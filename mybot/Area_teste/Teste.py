@@ -2,6 +2,8 @@ from mybot.messenger_api import *
 from mybot.database_access import *
 from mybot.models import *
 from django.db.models import Max
+import datetime
+from mybot.funcoes_bot import *
 '''
 print('------------Area Teste--------------')
 print (consulta_ativo(100030196033467))
@@ -68,9 +70,26 @@ img = Imagem_Relatorio.objects.filter(descricao = 'Painel de bordo')
 
 img = img.aggregate(Max('data'))['data__max']
 
-#img2 = Imagem_Relatorio.objects.filter(data = img)
+img2 = Imagem_Relatorio.objects.filter(data = img)
 
 print('------------Agregação max data------------')
 img2 = Imagem_Relatorio.objects.filter(data = img)
 print(img2[0].data)
+print(datetime.datetime.now().date())
+print('------------------------------------------')
+
+area = Area.objects.get(setor = 'ANALYTICS')
+usuarios = Usuario.objects.filter(area_id = area)
+img = Imagem_Relatorio.objects.filter(descricao='Painel de bordo')
+img_max = img.aggregate(Max('data'))['data__max']
+relatorio = Imagem_Relatorio.objects.get(data = img_max)
+for i in usuarios:
+    if (i.role == Role.objects.get(role='ADMIN')):
+        if(relatorio.enviado ==0):
+
+            print('envia mensagem')
+
+
+print('------------------------------------------')
+print(consulta_ativo(100030196033467))
 print('------------------------------------------')'''

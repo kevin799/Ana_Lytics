@@ -6,6 +6,8 @@ from mybot.models import *
 from django.http import HttpResponse
 import datetime
 from django.core.exceptions import ObjectDoesNotExist
+from django.db.models import Max
+import datetime
 
 '''
 Comandos para usar dentro do Cassandra  
@@ -241,4 +243,36 @@ def terminou_cadastro(id):
     else:
         return False
 
+def atualiza_status_relatorio(descricao,status):
+    img = Imagem_Relatorio.objects.filter(descricao=descricao)
+    img_max = img.aggregate(Max('data'))['data__max']
+    relatorio = Imagem_Relatorio.objects.get(data=img_max,descricao=descricao)
+    relatorio.enviado = status
+    relatorio.save()
+    return
 
+def atualiza_confirmacao_relatorio(descricao,id_usuario,num):
+    img = Imagem_Relatorio.objects.filter(descricao=descricao)
+    img_max = img.aggregate(Max('data'))['data__max']
+    relatorio = Imagem_Relatorio.objects.get(data=img_max,descricao = descricao)
+    usuario = Usuario.objects.get(id = id_usuario)
+    conf = Confirmacao_relatorio.objects.get(imagem=relatorio,usuario = usuario)
+    conf.flag_confirmacao = num
+    conf.save()
+    return
+
+def consulta_confirmacao_relatorio(descricao,id_usuario):
+    img = Imagem_Relatorio.objects.filter(descricao=descricao)
+    img_max = img.aggregate(Max('data'))['data__max']
+    relatorio = Imagem_Relatorio.objects.get(data=img_max,descricao = descricao)
+    usuario = Usuario.objects.get(id = id_usuario)
+    conf = Confirmacao_relatorio.objects.get(imagem=relatorio,usuario = usuario)
+    return conf.flag_confirmacao
+
+def atualiza_tab_conf(id_usuario,id_relatorio,flag):
+    usuario = Usuario.objects.get(id = id_usuario)
+    relatorio = Imagem_Relatorio.objects.get(id = id_relatorio)
+    confirmacao = Confirmacao_relatorio(imagem = relatorio,usuario = usuario)
+    confirmacao.flag_confirmacao = flag
+    confirmacao.save()
+    return

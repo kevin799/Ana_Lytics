@@ -548,22 +548,68 @@ def ponto_volta_almoco():
     con.close()
     return (lista_usuario)
 
-def bater_ponto(fbid):
-    fb = FbMessageApi(fbid)
-    fb.text_message("Oieee!!! Não esquece de bater o ponto :)!")
-    fb.text_message("...")
-    envia_print(fbid)
 
-def ida_almoco(fbid):
-    fb = FbMessageApi(fbid)
-    fb.text_message("Chegou a hora boa!!! Bora encher o buxo!!! AH! Não esquece de bater o ponto ok!")
+def retorna_admins_analytics():
+    con = MySQLdb.connect(host="127.0.0.1", user="bot", passwd="#Bot123", db="bot")
+    cursor = con.cursor()
+    cursor.execute("SELECT 	A.id FROM bot.mybot_usuario A join bot.mybot_role B on A.role_id = B.id join bot.mybot_area C on A.area_id = C.id WHERE B.role = 'ADMIN' AND C.setor = 'ANALYTICS'")
+    lista_usuario = []
+    resultado = cursor.fetchall()
+    for i in resultado:
+        lista_usuario.append(i[0])
+    con.commit()
+    con.close()
+    return lista_usuario
 
-def volta_almoco(fbid):
-    fb = FbMessageApi(fbid)
-    fb.text_message("É triste te trazer essa notícia... mas acabou o intervalo 😭... Mas nâo esquece de bater o ponto...")
+def consulta_confirmacao_relatorio(descricao,fbid):
+    con = MySQLdb.connect(host="127.0.0.1", user="bot", passwd="#Bot123", db="bot")
+    cursor = con.cursor()
+    cursor.execute("SELECT A.flag_confirmacao FROM bot.mybot_confirmacao_relatorio A JOIN bot.mybot_imagem_relatorio B ON A.imagem_id = B.id WHERE A.usuario_id = %s and data = (select MAX(data) from bot.mybot_imagem_relatorio) and B.descricao = '%s'"%(fbid,descricao))
+    resultado = cursor.fetchall()
+    flag_confirmacao = 0
+    for i in resultado:
+        flag_confirmacao = i[0]
+    con.commit()
+    con.close()
+    return flag_confirmacao
 
-def envia_print(fbid):
-    fb = FbMessageApi(fbid)
-    fb.text_message(
-        "Futuro painel de bordo!")
-    fb.image_message("https://kevinmikio.ngrok.io/static/img/show.jpg")
+def atualiza_confirmacao_relatorio(descricao,id_usuario,num):
+    con = MySQLdb.connect(host="127.0.0.1", user="bot", passwd="#Bot123", db="bot")
+    cursor = con.cursor()
+    cursor.execute("update mybot_confirmacao_relatorio set flag_confirmacao = %s where usuario_id = %s and imagem_id = (select id from bot.mybot_imagem_relatorio where descricao = '%s' and data = (select MAX(data) from bot.mybot_imagem_relatorio) )"%(num,id_usuario,descricao))
+    con.commit()
+    con.close()
+    return
+
+def status_ativo_de_acordo(id_usuario):
+    con = MySQLdb.connect(host="127.0.0.1", user="bot", passwd="#Bot123", db="bot")
+    cursor = con.cursor()
+    cursor.execute(("update mybot_usuario_funcao set ativo = 1 where id_funcionalidade_id = (select id from bot.mybot_funcionalidades_bot where nome = 'De acordo Painel de bordo') and id_usuario_id = %s") %id_usuario)
+    con.commit()
+    con.close()
+
+
+def retorna_basic_analytics():
+    con = MySQLdb.connect(host="127.0.0.1", user="bot", passwd="#Bot123", db="bot")
+    cursor = con.cursor()
+    cursor.execute("SELECT 	A.id FROM bot.mybot_usuario A join bot.mybot_role B on A.role_id = B.id join bot.mybot_area C on A.area_id = C.id WHERE B.role = 'BASIC' AND C.setor = 'ANALYTICS'")
+    lista_usuario = []
+    resultado = cursor.fetchall()
+    for i in resultado:
+        lista_usuario.append(i[0])
+    con.commit()
+    con.close()
+    return lista_usuario
+
+def update_relatorio_imagem():
+    con = MySQLdb.connect(host="127.0.0.1", user="bot", passwd="#Bot123", db="bot")
+    cursor = con.cursor()
+    cursor.execute("SELECT id FROM bot.mybot_imagem_relatorio WHERE data = (select max(data) from bot.mybot_imagem_relatorio) and descricao ='Painel de bordo';")
+    resultado = cursor.fetchall()
+    id = 0
+    for i in resultado:
+        id= i[0]
+    cursor.execute("update bot.mybot_imagem_relatorio set enviado = 2 where id = %s"%id)
+    con.commit()
+    con.close()
+    return
