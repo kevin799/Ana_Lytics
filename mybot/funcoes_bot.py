@@ -484,8 +484,6 @@ def coleta_posicao_funcao(fbid,nome):
 def envio_relatorio(fbid,recevied_message):
     try:
         usuario = Usuario.objects.get(id=fbid)
-        print('-----entrou no envio------')
-        print(datetime.datetime.now())
         if(usuario.area.setor == 'ANALYTICS' ):
             painel_de_bordo(fbid,recevied_message)
             return
@@ -495,16 +493,14 @@ def envio_relatorio(fbid,recevied_message):
 def painel_de_bordo(fbid,recevied_message):
     fb = FbMessageApi(fbid)
     try:
-        print( 'nao sei pq nao termina')
-        print(datetime.datetime.now())
+
         usuarios = Usuario.objects.get(id=fbid)
         img = Imagem_Relatorio.objects.filter(descricao='Painel de bordo')
         img_max = img.aggregate(Max('data'))['data__max']
         relatorio = Imagem_Relatorio.objects.get(data=img_max,descricao='Painel de bordo')
 
         if (usuarios.role == Role.objects.get(role='ADMIN')):
-            print('-------------entrou no if admin----------------')
-            print(datetime.datetime.now())
+
             if (relatorio.enviado == 0 and relatorio.data.date() == datetime.datetime.now().date() and recevied_message.upper() == 'TA ERRADO!ARRUMAR!'):
                 fb.text_message("Vou enviar mais tarde então...")
                 atualiza_status_relatorio('Painel de bordo',-1)
@@ -531,8 +527,19 @@ def painel_de_bordo(fbid,recevied_message):
                                                                               "payload": 'Ta errado!Arrumar!'
                                                                               }])
                 return
-
-
+            if(relatorio.enviado == 0 and relatorio.data.date() != datetime.datetime.now().date()):
+                fb.text_message("Estou vendo que a ultima atualização que consta no banco é do dia %s"%img_max)
+                fb.quick_reply_message("Posso descartar o seu de acordo deste dia? ", [{"content_type": "text",
+                                                                               "title": 'Pode descartar!',
+                                                                               "payload": 'Pode descartar!'
+                                                                               }, {"content_type": "text",
+                                                                                   "title": 'Não descartar!',
+                                                                                   "payload": 'Não descartar!'
+                                                                                   }])
+                if(recevied_message.upper() == 'PODE DESCARTAR!'):
+                    fb.text_message("Vou descartar então...")
+                    atualizando_ativo(fbid, 'De acordo Painel de bordo', 0)
+                    return
         return
     except ObjectDoesNotExist:
         return
@@ -541,8 +548,6 @@ def envio_prints_base_validacao(fbid):
     fb = FbMessageApi(fbid)
     if (consulta_confirmacao_relatorio('Painel Executivo', fbid) == 0 and consulta_confirmacao_relatorio('FPD',fbid) == 0
             and consulta_confirmacao_relatorio('PDD', fbid) == 0):
-        print('--------entrou no envio dos prints----------')
-        print(datetime.datetime.now())
         '''if(consulta_ativo(fbid) == None):
             atualizando_ativo(fbid, 'De acordo Painel de bordo', 1)
         else:

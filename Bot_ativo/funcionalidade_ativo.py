@@ -1,5 +1,6 @@
+# -*- coding: utf-8 -*-
 from funcao_acesso import *
-import datetime
+from datetime import datetime
 
 def bater_ponto(fbid):
     fb = FbMessageApi(fbid)
@@ -28,6 +29,7 @@ def envio_prints_base_validacao(fbid):
 
             atualizando_ativo(fbid, 'De acordo Painel de bordo', 1)
         '''
+
         fb.text_message("Valide o paniel de bordo pfv...")
         if (consulta_confirmacao_relatorio('Painel Executivo', fbid) == 0):
             fb.text_message("Painel Executivo")
@@ -55,3 +57,17 @@ def envio_prints_base_validacao(fbid):
                                                                            "payload": 'Ta errado!Arrumar!'
                                                                            }])
     return
+
+def envio_geral(fbid):
+    fb = FbMessageApi(fbid)
+    fb.text_message("Segue o Painel de bordo atualizado")
+    fb.image_message("https://kevinmikio.ngrok.io/static/img/SAS.jpg")
+    return
+
+def lembrete_admin(fbid):
+    fb = FbMessageApi(fbid)
+    fb.text_message("Relatorio enviado para os demais colaboradores.")
+
+def lembrete_erro(fbid):
+    fb = FbMessageApi(fbid)
+    fb.text_message("Foi constatado um erro no ultimo envio, valide com a novos prints.")
