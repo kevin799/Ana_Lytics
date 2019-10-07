@@ -123,19 +123,34 @@ def funcionalidades_bot(fbid, recevied_message):
             fb.quick_reply_message("Você quer uma explicação de como funciona as 'Minhas funções'???",qr)
             atualizando_status(fbid, 'Minhas funções',2)
             return
+        if (consulta_status(fbid, 'Minhas funções') == 2 and recevied_message.upper() == 'NÃO'):
+            fb.text_message("Tudo bem! Quando vc quiser estarei disposto a te explicar, basta digitar minhas funções ou algo parecido e clicar na opção de 'Minhas funções' 😉")
+            atualizando_status(fbid, 'Minhas funções', 0)
+            atualizando_ativo(fbid, 'Minhas funções', 0)
+            return
         if(consulta_status(fbid,'Minhas funções')==2 and recevied_message.upper() == 'SIM'):
             fb.text_message("Vou te ensinar como usar as funções que te mostrei 😉")
             fb.text_message("Sempre que vc digitar *Minhas funções* ou algo parecido vou sempre te dar uma lista assim:")
             fb.text_message(frase)
             frase_lista = frase.split('\n')
+            qr=[]
             for i in frase_lista:
                 if "Bater ponto".upper() in i.upper():
                     numero = i[0]
-            qr = [{"content_type": "text",
-                   "title": str(numero),
-                   "payload": str(numero)
-                   }]
-            fb.quick_reply_message("Depois que eu te mandar a lista basta digitar o numero que indica a função... Sugiro que digite a função de 'bater ponto' ningem gosta de ficar arrumando lista de ponto neh ",qr)
+                    qr = [{"content_type": "text",
+                           "title": str(numero),
+                           "payload": str(numero)
+                           }]
+
+            gerencia = Role.objects.get(role = 'GERENCIA')
+            diretor = Role.objects.get(role = 'DIRETOR')
+            if(colaborador.id_role==gerencia):
+                fb.text_message("Depois que eu te mandar a lista basta digitar o numero que indica a função...")
+            if (colaborador.id_role == diretor):
+                fb.text_message("Depois que eu te mandar a lista basta digitar o numero que indica a função...")
+
+            if (colaborador.id_role != gerencia or colaborador.id_role != diretor):
+                fb.quick_reply_message("Depois que eu te mandar a lista basta digitar o numero que indica a função... Sugiro que digite a função de 'bater ponto' ningem gosta de ficar arrumando lista de ponto neh ",qr)
             atualizando_status(fbid, 'Minhas funções', 1)
             return
         if (consulta_status(fbid, 'Minhas funções') == 1 and consulta_ativo(fbid) == 'Minhas funções'):
@@ -196,11 +211,12 @@ def funcionalidades_bot(fbid, recevied_message):
 
 
 def gerenciador_funcoes(fbid, nfuncao,recevied_message):
+    fb = FbMessageApi(fbid)
     try:
         usuario = Usuario.objects.get(id=fbid)
         colaborador = Colaboradores.objects.get(email=usuario.email)
         fucionalidades = Funcionalidade_Role_Areas.objects.filter(id_area=colaborador.id_area, id_role=colaborador.id_role)
-        frase,funcao = '',''
+        frase,funcao,frase_envio = '','',''
         opcao = 1
 
         for i in fucionalidades:
@@ -212,8 +228,7 @@ def gerenciador_funcoes(fbid, nfuncao,recevied_message):
         for i in frase_lista:
             if str(nfuncao) in i:
                 funcao = i[1:]
-        print('------------------------------------')
-        print(funcao)
+
         if(funcao == 'Bater ponto'):
             if(consulta_ativo(fbid)=='Minhas funções'):
                 atualizando_ativo(fbid,'Minhas funções',0)
@@ -225,9 +240,27 @@ def gerenciador_funcoes(fbid, nfuncao,recevied_message):
             envio_relatorio(fbid,recevied_message)
             print('--------entrou aq na funcao---------')
             return
+        if(nfuncao==consulta_funcionalidade('Minhas funções')):
+            opcao2 = 1
+            for i in fucionalidades:
+                frase_envio = frase_envio + str(opcao2) + ' - ' + i.id_funcionalidade.nome + '\n'
+                opcao2 += 1
+            frase_envio = frase_envio + str(opcao2) + ' - Sair\n'
+            print('entrou funcao')
+            if(consulta_ativo(fbid)=='Minhas funções'):
+                fb.text_message('Digite uma opção válida')
+                return
+            else:
+                print('entrou aq')
+                atualizando_ativo(fbid,'Minhas funções',1)
+                atualizando_status(fbid,'Minhas funções',1)
+                fb.text_message('Digite uma opção válida 😉')
+                fb.text_message(frase_envio)
+                return
         if(recevied_message == str(opcao)):
+            fb.text_message('Até mais tarde!')
             atualizando_ativo(fbid,consulta_ativo(fbid),0)
-            print('desgraca de erro')
+            return
     except ObjectDoesNotExist:
         #Entra nesta condição caso o usuario nao esteja contido na base de colaboradores.
         usuario = Usuario.objects.get(id=fbid)
@@ -291,6 +324,7 @@ def bater_ponto(fbid, recevied_message):
            "title": "Não",
            "payload": "Não"
            }]
+
     if (recevied_message.upper() == 'SIM' and consulta_status(fbid, 'Bater ponto') == None and consulta_ativo(fbid) == 'Bater ponto'):
         cargo = []
         c = Cargo.objects.all()

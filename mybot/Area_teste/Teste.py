@@ -93,3 +93,12 @@ for i in usuarios:
 print('------------------------------------------')
 print(consulta_ativo(100030196033467))
 print('------------------------------------------')'''
+'''
+gerencia = Role.objects.get(role = 'GERENCIA')
+diretor = Role.objects.get(role = 'DIRETOR')
+
+usuario = Usuario.objects.get(id=100030196033467)
+colaborador = Colaboradores.objects.get(email = usuario.email)
+
+
+print(consulta_status(100030196033467, 'Minhas funções'))'''

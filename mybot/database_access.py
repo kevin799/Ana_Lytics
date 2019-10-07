@@ -190,6 +190,13 @@ def cadastro_usuario(id,texto):
             return 4
 
 
+def consulta_funcionalidade(nome_funcao):
+    try:
+        funcionalidade = Funcionalidades_bot.objects.get(nome = nome_funcao)
+        return funcionalidade.id
+    except ObjectDoesNotExist:
+        return
+
 def consulta_status(id,nome_funcao):
     try:
         funcionalidade = Funcionalidades_bot.objects.get(nome = nome_funcao)
