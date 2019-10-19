@@ -125,7 +125,7 @@ def funcionalidades_bot(fbid, recevied_message):
             return
         if (consulta_status(fbid, 'Minhas funções') == 2 and recevied_message.upper() == 'NÃO'):
             fb.text_message("Tudo bem! Quando vc quiser estarei disposto a te explicar, basta digitar minhas funções ou algo parecido e clicar na opção de 'Minhas funções' 😉")
-            atualizando_status(fbid, 'Minhas funções', 0)
+            atualizando_status(fbid, 'Minhas funções', 1)
             atualizando_ativo(fbid, 'Minhas funções', 0)
             return
         if(consulta_status(fbid,'Minhas funções')==2 and recevied_message.upper() == 'SIM'):
@@ -155,6 +155,7 @@ def funcionalidades_bot(fbid, recevied_message):
             return
         if (consulta_status(fbid, 'Minhas funções') == 1 and consulta_ativo(fbid) == 'Minhas funções'):
             if(recevied_message in frase):
+                print('Entroou no geranciamento')
                 gerenciador_funcoes(fbid,recevied_message,recevied_message)
             else:
                 funcionalidades(fbid)
@@ -226,19 +227,27 @@ def gerenciador_funcoes(fbid, nfuncao,recevied_message):
         print('------------------------------------')
         print(frase_lista)
         for i in frase_lista:
+            print(i[1:])
             if str(nfuncao) in i:
                 funcao = i[1:]
 
+
         if(funcao == 'Bater ponto'):
+            print('entrou na funcao bater ponto')
             if(consulta_ativo(fbid)=='Minhas funções'):
+                print('entrou onde usa start')
                 atualizando_ativo(fbid,'Minhas funções',0)
                 atualizando_ativo(fbid,'Bater ponto', 1)
                 bater_ponto(fbid,'Start')
+                return
             else:
                 bater_ponto(fbid,recevied_message)
+                return
         if(funcao == 'De acordo Painel de bordo'):
+            if (consulta_ativo(fbid) == 'Minhas funções'):
+                fb.text_message(
+                    'Se vc está lendo esta mensagem isso significa que vc é um ADMIN... com grandes poderes vem grandes responsabilidades.')
             envio_relatorio(fbid,recevied_message)
-            print('--------entrou aq na funcao---------')
             return
         if(nfuncao==consulta_funcionalidade('Minhas funções')):
             opcao2 = 1
@@ -250,6 +259,8 @@ def gerenciador_funcoes(fbid, nfuncao,recevied_message):
             if(consulta_ativo(fbid)=='Minhas funções'):
                 fb.text_message('Digite uma opção válida')
                 return
+
+
             else:
                 print('entrou aq')
                 atualizando_ativo(fbid,'Minhas funções',1)
@@ -257,6 +268,16 @@ def gerenciador_funcoes(fbid, nfuncao,recevied_message):
                 fb.text_message('Digite uma opção válida 😉')
                 fb.text_message(frase_envio)
                 return
+
+        if(funcao ==  'Minhas funções'):
+
+            fb.text_message('Nas Minhas funções te mostro uma lista de opções que está disponivel para falar oq posso fazer por vc! Basta inserir uma das opções válidas 😉')
+            return
+
+        if (funcao == 'Painel de bordo'):
+            fb.text_message(
+                'Esta funcionalidade está disponivel para aqueles que querem saber quais são os desempenhos dos indicadores da DM! Claro tudo validado antes do envio 😉')
+            return
         if(recevied_message == str(opcao)):
             fb.text_message('Até mais tarde!')
             atualizando_ativo(fbid,consulta_ativo(fbid),0)
@@ -324,7 +345,7 @@ def bater_ponto(fbid, recevied_message):
            "title": "Não",
            "payload": "Não"
            }]
-
+    print('entrou dentro mesmo da funcao')
     if (recevied_message.upper() == 'SIM' and consulta_status(fbid, 'Bater ponto') == None and consulta_ativo(fbid) == 'Bater ponto'):
         cargo = []
         c = Cargo.objects.all()
@@ -344,12 +365,14 @@ def bater_ponto(fbid, recevied_message):
         #atualizando_ativo(fbid, consulta_ativo(fbid), 0)
         #atualizando_ativo(fbid, 'Bater ponto', 1)
         return
-    if(recevied_message.upper()== 'NÂO'):
+
+    if(recevied_message.upper()== 'NÃO'):
         fb.text_message("Tudo bem... quando você quiser ativar a função basta digitar 'Minhas funções'")
         atualizando_ativo(fbid, 'Bater ponto', 0)
         atualizando_status(fbid, 'Bater ponto', 0)
         return
-    if(consulta_ativo(fbid) == 'Bater ponto'):
+    if(consulta_ativo(fbid) == 'Bater ponto' and consulta_status(fbid, 'Bater ponto') ==1):
+        print('ooooxe')
         lista_horas = []
         horas = Lista_Horas.objects.all()
         horas_brutas = []
@@ -360,48 +383,185 @@ def bater_ponto(fbid, recevied_message):
                             "title": i.horas,
                             "payload": i.horas
                         })
-        if(recevied_message == 'CLT-44 Hrs sem.'):
-            cargo = Cargo.objects.get(nome = 'CLT-44 Hrs sem.')
-            try:
-                usuario_cargo = Usuario_cargo_hora.objects.get(id_usuario = usuario)
+        try:
+            usuario_cargo = Usuario_cargo_hora.objects.get(id_usuario=usuario)
+        except ObjectDoesNotExist:
+            usuario_cargo = Usuario_cargo_hora(id_usuario=usuario)
+            usuario_cargo.save()
+        if(usuario_cargo.id_cargo == None):
+            if(recevied_message == 'CLT-44 Hrs sem.'):
+                cargo = Cargo.objects.get(nome = 'CLT-44 Hrs sem.')
 
-
-            except ObjectDoesNotExist:
-                usuario_cargo = Usuario_cargo_hora(id_usuario = usuario,id_cargo = cargo)
+                usuario_cargo.id_cargo = cargo
                 usuario_cargo.save()
                 fb.quick_reply_message("Que horas você costuma chegar???", lista_horas)
                 return
+            else:
+                cargo = []
+                c = Cargo.objects.all()
+                for i in c:
+                    cargo.append({"content_type": "text",
+                                  "title": i.nome,
+                                  "payload": i.nome
+                                  })
+                fb.quick_reply_message("Digite uma opção válida!", cargo)
+                return
+
         try:
             usuario_cargo = Usuario_cargo_hora.objects.get(id_usuario=usuario)
-            if (
-                    usuario_cargo.hora_entrada != None and usuario_cargo.periodo_entrada != None and usuario_cargo.hora_almoco == None and recevied_message in horas_brutas):
-                usuario_cargo.hora_almoco = recevied_message
-                usuario_cargo.save()
-                aplicando_periodo_almoco(fbid)
-                atualizando_ativo(fbid, 'Bater ponto', 0)
-                fb.text_message("Prontinho! Agora vou sempre te lembrar de bater o seu ponto!")
-                return
+            if (usuario_cargo.hora_entrada != None and usuario_cargo.periodo_entrada != None and usuario_cargo.hora_almoco == None):
+                if(recevied_message in lista_hora_almoco_lista(fbid)):
+                    usuario_cargo.hora_almoco = recevied_message
+                    usuario_cargo.save()
+                    aplicando_periodo_almoco(fbid)
+                    atualizando_ativo(fbid, 'Bater ponto', 0)
+                    fb.text_message("Prontinho! Agora vou sempre te lembrar de bater o seu ponto!")
+                    return
+                else:
+                    fb.quick_reply_message(
+                        "Digite uma opção válida!",
+                        lista_hora_almoco(fbid))
+                    return
 
-            if (recevied_message in ['AM', 'PM']):
-                usuario_cargo.periodo_entrada = recevied_message
-                usuario_cargo.save()
-                fb.quick_reply_message("Estamos quase terminando! Só me diz que horas você costuma almoçar (ou jantar)???",
-                                       lista_hora_almoco(fbid))
-                return
 
-            if (recevied_message in horas_brutas):
-                usuario_cargo.hora_entrada = recevied_message
-                usuario_cargo.save()
-                fb.quick_reply_message("Qual o perido que você entra?", [{"content_type": "text",
-                                                                          "title": 'AM',
-                                                                          "payload": 'AM'
-                                                                          }, {"content_type": "text",
-                                                                              "title": 'PM',
-                                                                              "payload": 'PM'
-                                                                              }])
-                return
+
+            if(usuario_cargo.hora_entrada == None):
+                if (recevied_message in horas_brutas):
+                    usuario_cargo.hora_entrada = recevied_message
+                    usuario_cargo.save()
+                    fb.quick_reply_message("Qual o perido que você entra?", [{"content_type": "text",
+                                                                              "title": 'AM',
+                                                                              "payload": 'AM'
+                                                                              }, {"content_type": "text",
+                                                                                  "title": 'PM',
+                                                                                  "payload": 'PM'
+                                                                                  }])
+                    return
+                else:
+                    fb.quick_reply_message("Digite uma opção válida!", lista_horas)
+                    return
+            if (usuario_cargo.hora_entrada != None and usuario_cargo.periodo_entrada == None):
+                if (recevied_message in ['AM', 'PM']):
+                    usuario_cargo.periodo_entrada = recevied_message
+                    usuario_cargo.save()
+                    fb.quick_reply_message("Estamos quase terminando! Só me diz que horas você costuma almoçar (ou jantar)???",
+                                           lista_hora_almoco(fbid))
+                    return
+                else:
+                    fb.quick_reply_message("Digite uma opção válida!", [{"content_type": "text",
+                                                                              "title": 'AM',
+                                                                              "payload": 'AM'
+                                                                              }, {"content_type": "text",
+                                                                                  "title": 'PM',
+                                                                                  "payload": 'PM'
+                                                                                  }])
+                    return
         except ObjectDoesNotExist:
             return
+
+    if(consulta_status(fbid, 'Bater ponto') != None):
+        print('entrou onde queria')
+        if (consulta_status(fbid, 'Bater ponto') != None and recevied_message == 'Start'):
+            fb.text_message("Escolha uma das opções:\n1 - Ativar a função\n2 - Desativar a função\n3 - Modificar horario de entrada e almoço\n4- Me mostre minha configuração \n5 - Sair")
+            return
+        else:
+            ususario_funcao = None
+            try:
+                usuario = Usuario.objects.get(id=fbid)
+                funcionalidade = Funcionalidades_bot.objects.get(nome = 'Bater ponto')
+                ususario_funcao = Usuario_Funcao.objects.get(id_usuario = usuario,id_funcionalidade = funcionalidade)
+            except ObjectDoesNotExist:
+                return
+            if(recevied_message== '1'):
+                if(ususario_funcao.status == 1):
+                    fb.text_message('Já está ativo!')
+                    atualizando_ativo(fbid, 'Bater ponto', 0)
+                    return
+                else:
+                    cargo = []
+                    c = Cargo.objects.all()
+                    for i in c:
+                        cargo.append({"content_type": "text",
+                                      "title": i.nome,
+                                      "payload": i.nome
+                                      })
+                    fb.quick_reply_message("Me fala qual a sua posição na DM???", cargo)
+                    atualizando_status(fbid, 'Bater ponto', 1)
+                    return
+
+            if(recevied_message == '2'):
+                try:
+                    usuario_cargo = Usuario_cargo_hora.objects.get(id_usuario=usuario)
+                    usuario_cargo.hora_entrada = None
+                    usuario_cargo.periodo_entrada = None
+                    usuario_cargo.hora_almoco = None
+                    usuario_cargo.periodo_almoco = None
+                    usuario_cargo.id_cargo = None
+                    usuario_cargo.save()
+                    atualizando_status(fbid, 'Bater ponto', 0)
+                    atualizando_ativo(fbid, 'Bater ponto', 0)
+                    fb.text_message('Desativado com sucesso!')
+                except ObjectDoesNotExist:
+                    fb.text_message('A função ainda não está ativa!')
+                    atualizando_ativo(fbid, 'Bater ponto', 0)
+                    return
+
+                return
+            if (recevied_message == '3'):
+                fb.text_message('Modificar entrada')
+                try:
+                    usuario_cargo = Usuario_cargo_hora.objects.get(id_usuario=usuario)
+                    lista_horas = []
+                    horas = Lista_Horas.objects.all()
+                    horas_brutas = []
+                    for i in horas:
+                        horas_brutas.append(i.horas)
+                        lista_horas.append({"content_type": "text",
+                                            "title": i.horas,
+                                            "payload": i.horas
+                                            })
+                    if(usuario_cargo.id_cargo != None):
+                        usuario_cargo.hora_entrada = None
+                        usuario_cargo.periodo_entrada = None
+                        usuario_cargo.hora_almoco = None
+                        usuario_cargo.periodo_almoco = None
+                        usuario_cargo.save()
+                        fb.quick_reply_message("Que horas você costuma chegar???", lista_horas)
+                        return
+                    else:
+                        fb.text_message('A função ainda não está ativa! Ative antes de usar esta opção!')
+                        atualizando_ativo(fbid, 'Bater ponto', 0)
+                        return
+                except ObjectDoesNotExist:
+                    fb.text_message('A função ainda não está ativa!')
+                    atualizando_ativo(fbid, 'Bater ponto', 0)
+                    return
+                return
+            if(recevied_message == '4'):
+                try:
+                    usuario_cargo = Usuario_cargo_hora.objects.get(id_usuario=usuario)
+                    if(usuario_cargo.hora_entrada != None and usuario_cargo.periodo_entrada != None and usuario_cargo.hora_almoco != None):
+                        fb.text_message('Segue o seu horário:\n* Hora entrada: %s\n* Periodo entrada: %s\n* Hora almoço: %s\n* Periodo almoço: %s'%(usuario_cargo.hora_entrada,
+                                                                                                                                                    usuario_cargo.periodo_entrada,
+                                                                                                                                                    usuario_cargo.hora_almoco,
+                                                                                                                                                    usuario_cargo.periodo_almoco))
+                        atualizando_ativo(fbid, 'Bater ponto', 0)
+                        return
+                    else:
+                        fb.text_message('A função ainda não está ativa!')
+                        atualizando_ativo(fbid, 'Bater ponto', 0)
+                        return
+                except ObjectDoesNotExist:
+                    fb.text_message('A função ainda não está ativa!')
+                    atualizando_ativo(fbid, 'Bater ponto', 0)
+                    return
+            if (recevied_message == '5'):
+                atualizando_ativo(fbid, 'Bater ponto', 0)
+                fb.text_message('Tchauzinho!')
+                return
+            else:
+                fb.text_message('Digite uma opção válida')
+                return
 
 
 def lista_hora_almoco(fbid):
@@ -432,6 +592,30 @@ def lista_hora_almoco(fbid):
     except ObjectDoesNotExist:
         return
 
+def lista_hora_almoco_lista(fbid):
+    try:
+        horas = Lista_Horas.objects.all()
+        horas_brutas = []
+        usuario = Usuario.objects.get(id=fbid)
+        for i in horas:
+            horas_brutas.append(i.horas)
+        usuario_cargo = Usuario_cargo_hora.objects.get(id_usuario=usuario)
+        inicial = 0
+        for i in horas_brutas:
+            if i == usuario_cargo.hora_entrada:
+                pos = inicial
+            inicial+=1
+        horas_brutas = horas_brutas+horas_brutas
+        horas_trabalho = usuario_cargo.id_cargo.horas+1
+
+        horas_disponiveis = horas_brutas[pos+1:pos+horas_trabalho+1]
+        resposta = []
+        for i in horas_disponiveis:
+            resposta.append(i)
+
+        return resposta
+    except ObjectDoesNotExist:
+        return
 
 def aplicando_periodo_almoco(fbid):
     try:

@@ -13,7 +13,7 @@ lista = {'enviado':[],'usuario':[]}
 for i in resposta:
     lista['enviado'].append(i[0])
     lista['usuario'].append(i[1])
-
+print(lista)
 cursor.execute("SELECT data FROM bot.mybot_imagem_relatorio WHERE data = (select max(data) from bot.mybot_imagem_relatorio) and descricao ='Painel de bordo'")
 resposta =cursor.fetchall()
 for i in resposta:
