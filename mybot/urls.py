@@ -13,4 +13,5 @@ urlpatterns = [
     url(r'^/pdd/', views.pdd_print, name='pdd'),
     url(r'^/fpd/', views.fpd_print, name='fpd'),
     url(r'^/ipf/', views.ipf_print, name='ipf'),
+
 ]

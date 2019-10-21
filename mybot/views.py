@@ -76,6 +76,8 @@ def fpd_print(request):
 def ipf_print(request):
     return render(request,"mybot/ipf.html")
 
+
+
 class MyBotView(generic.View):
 
 

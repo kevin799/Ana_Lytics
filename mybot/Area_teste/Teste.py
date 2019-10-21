@@ -102,3 +102,4 @@ colaborador = Colaboradores.objects.get(email = usuario.email)
 
 
 print(consulta_status(100030196033467, 'Minhas funções'))'''
+

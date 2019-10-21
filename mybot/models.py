@@ -123,6 +123,7 @@ class Lista_Horas(models.Model):
 
 class Conversa_ML(models.Model):
     conversa = models.CharField(max_length=1000)
+    resposta = models.CharField(max_length=1000)
 
 class Cargo(models.Model):
     nome = models.CharField(max_length=200)
@@ -150,6 +151,14 @@ class Confirmacao_relatorio(models.Model):
     imagem = models.ForeignKey(Imagem_Relatorio,on_delete=models.CASCADE)
     usuario = models.ForeignKey(Usuario,on_delete=models.CASCADE)
     flag_confirmacao = models.IntegerField()
+
+class Ensino_dialogo(models.Model):
+    id_usuario = models.ForeignKey(Usuario,on_delete=models.CASCADE)
+    pergunta = models.CharField(max_length=500)
+    resposta = models.CharField(max_length=500)
+    aprovado = models.IntegerField()
+    data = models.DateTimeField()
+
 
 '''------------------Mineracao dados cassandra--------------------------'''
 

@@ -85,13 +85,18 @@ def cadastro(fbid, recevied_message):
 
 
 def treinar(chatterbot):
+    qtd,cont = 0,0
     lista_dialogo = []
     trainer = ListTrainer(chatterbot)
     conversa = Conversa_ML.objects.values('conversa')
-    for i in conversa:
-        lista_dialogo.append(i['conversa'])
+    resposta = Conversa_ML.objects.values('resposta')
+    qtd = len(conversa)
+    while cont!=qtd:
+        lista_dialogo.append(conversa[cont]['conversa'])
+        lista_dialogo.append(resposta[cont]['resposta'])
+        cont+=1
     trainer.train(lista_dialogo)
-    print(lista_dialogo)
+
 
 
 def funcionalidades_bot(fbid, recevied_message):
@@ -227,7 +232,6 @@ def gerenciador_funcoes(fbid, nfuncao,recevied_message):
         print('------------------------------------')
         print(frase_lista)
         for i in frase_lista:
-            print(i[1:])
             if str(nfuncao) in i:
                 funcao = i[1:]
 
@@ -277,6 +281,11 @@ def gerenciador_funcoes(fbid, nfuncao,recevied_message):
         if (funcao == 'Painel de bordo'):
             fb.text_message(
                 'Esta funcionalidade está disponivel para aqueles que querem saber quais são os desempenhos dos indicadores da DM! Claro tudo validado antes do envio 😉')
+            return
+
+        if(funcao == 'Ensinar diálogos' or consulta_ativo(fbid) == 'Ensinar diálogos'):
+            print('Entrou Ensinar diálogos')
+            ensinar_dialogo(fbid,recevied_message)
             return
         if(recevied_message == str(opcao)):
             fb.text_message('Até mais tarde!')
@@ -786,6 +795,81 @@ def envio_prints_base_validacao(fbid):
             fb.image_message('http://kevinmikio.ngrok.io/static/img/Pdd.png')
             atualiza_confirmacao_relatorio('PDD', fbid, 1)
     return
+
+def ensinar_dialogo(fbid,recevied_message):
+    fb = FbMessageApi(fbid)
+    try:
+        dialogo = Ensino_dialogo.objects.filter(id_usuario=fbid)
+        if (len(dialogo) == 0):
+            usuario = Usuario.objects.get(id=fbid)
+            dialogo = Ensino_dialogo(id_usuario=usuario)
+            dialogo.data = datetime.datetime.now()
+            dialogo.aprovado = 0
+            dialogo.save()
+            fb.text_message("Vejo que é a sua primeira vez que vc entra nesta função...")
+            fb.text_message(
+                "Esta função consiste em vc me ensinar oq sabe... uma vez que vc me ensina os meus criadores irão ver se o diállogo é consistente para eu aprender!")
+            fb.text_message(
+                "Vai funcionar da seguinte forma... vc me fala qual é a 'PERGUNTA' e qual seria a 'RESPOSTA' ideal.")
+            fb.text_message("Por exemplo...")
+            fb.text_message("PERGUNTA: O que é um chatbot?")
+            fb.text_message(
+                "RESPOSTA: É um programa de computador que tenta simular um ser humano na conversação com as pessoas.")
+            fb.text_message(
+                "Só evite algo que envolva nomes, palavroes... pois estão sempre monitorando o meu aprendizado")
+            fb.text_message("Sem mais delongas... vamos começar!")
+            fb.text_message("Fale uma pergunta")
+            atualizando_ativo(fbid, 'Minhas funções', 0)
+            atualizando_ativo(fbid, 'Ensinar diálogos', 1)
+
+            return
+        else:
+            ref = dialogo.aggregate(Max('id'))
+            dialogo = Ensino_dialogo.objects.get(id = ref['id__max'])
+
+
+            if(dialogo.pergunta != '' and dialogo.resposta!= ''):
+                usuario = Usuario.objects.get(id=fbid)
+                dialogo = Ensino_dialogo(id_usuario = usuario)
+                dialogo.aprovado = 0
+                dialogo.data = datetime.datetime.now()
+                dialogo.save()
+                fb.text_message("Fale uma pergunta")
+                atualizando_ativo(fbid, 'Minhas funções', 0)
+                atualizando_ativo(fbid, 'Ensinar diálogos', 1)
+                return
+            if(dialogo.pergunta == ''):
+                dialogo.pergunta = recevied_message
+                dialogo.save()
+                fb.text_message("Me diga qual seria resposta para esta pergunta.")
+                return
+            if(dialogo.pergunta!= '' and dialogo.resposta == ''):
+                dialogo.resposta = recevied_message
+                dialogo.save()
+                fb.text_message("Esta interação será analizado! Muito obrigado por me ensinar!")
+                atualizando_ativo(fbid, 'Ensinar diálogos', 0)
+                return
+            return
+    except ObjectDoesNotExist:
+        usuario = Usuario.objects.get(id = fbid)
+        dialogo = Ensino_dialogo(id_usuario=usuario)
+        dialogo.data = datetime.datetime.now()
+        dialogo.aprovado = 0
+        dialogo.save()
+        fb.text_message("Vejo que é a sua primeira vez que vc entra nesta função...")
+        fb.text_message("Esta função consiste em vc me ensinar oq sabe... uma vez que vc me ensina os meus criadores irão ver se o diállogo é consistente para eu aprender!")
+        fb.text_message("Vai funcionar da seguinte forma... vc me fala qual é a 'PERGUNTA' e qual seria a 'RESPOSTA' ideal.")
+        fb.text_message("Por exemplo...")
+        fb.text_message("PERGUNTA: O que é um chatbot?")
+        fb.text_message("RESPOSTA: É um programa de computador que tenta simular um ser humano na conversação com as pessoas.")
+        fb.text_message("Só evite algo que envolva nomes, palavroes... pois estão sempre monitorando o meu aprendizado")
+        fb.text_message("Sem mais delongas... vamos começar!")
+        fb.text_message("Fale uma pergunta")
+        atualizando_ativo(fbid, 'Minhas funções', 0)
+        atualizando_ativo(fbid, 'Ensinar diálogos', 1)
+
+        return
+
 #funcionalidades_bot(100030196033467,'sim')
 #gerenciador_funcoes(100030196033467,2)
 
