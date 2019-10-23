@@ -71,3 +71,9 @@ def lembrete_admin(fbid):
 def lembrete_erro(fbid):
     fb = FbMessageApi(fbid)
     fb.text_message("Foi constatado um erro no ultimo envio, valide com a novos prints.")
+
+
+def comunicado_geral(fbid):
+    fb = FbMessageApi(fbid)
+    fb.text_message(mensagem_comunicado_geral())
+

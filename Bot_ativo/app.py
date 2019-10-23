@@ -23,3 +23,6 @@ if(confirmacao_de_todos_os_admins()):
     for i in retorna_admins_analytics():
         lembrete_admin(i)
     update_relatorio_imagem()
+
+for i in todos_os_usuarios():
+    comunicado_geral(i)

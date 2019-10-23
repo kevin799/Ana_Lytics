@@ -120,6 +120,9 @@ class Usuario_Funcao(models.Model):
 
 class Lista_Horas(models.Model):
     horas = models.CharField(max_length=200)
+    def __str__(self):
+        return self.horas
+
 
 class Conversa_ML(models.Model):
     conversa = models.CharField(max_length=1000)
@@ -158,6 +161,19 @@ class Ensino_dialogo(models.Model):
     resposta = models.CharField(max_length=500)
     aprovado = models.IntegerField()
     data = models.DateTimeField()
+
+class Periodo(models.Model):
+    periodo = models.CharField(max_length=10)
+    def __str__(self):
+        return self.periodo
+
+
+
+class Comunicado_geral(models.Model):
+    mensagem = models.TextField()
+    data_envio = models.DateField()
+    hora_envio = models.ForeignKey(Lista_Horas,on_delete=models.CASCADE)
+    periodo = models.ForeignKey(Periodo,on_delete=models.CASCADE)
 
 
 '''------------------Mineracao dados cassandra--------------------------'''

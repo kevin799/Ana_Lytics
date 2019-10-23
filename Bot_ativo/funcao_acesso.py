@@ -1,6 +1,7 @@
 import MySQLdb
 from messenger_api import *
 from datetime import datetime
+import pytz
 
 def get_list_user():
     con = MySQLdb.connect(host = "127.0.0.1",user ="bot",passwd ="#Bot123",db = "bot")
@@ -634,3 +635,83 @@ def confirmacao_de_todos_os_admins():
     else:
         return False
 
+def conversor_hora(x,y):
+    if(x=='01:00' and y =='AM'):
+        return '01:00'
+    if (x == '02:00' and y == 'AM'):
+        return '02:00'
+    if (x == '03:00' and y == 'AM'):
+        return '03:00'
+    if (x == '04:00' and y == 'AM'):
+        return '04:00'
+    if (x == '05:00' and y == 'AM'):
+        return '05:00'
+    if (x == '06:00' and y == 'AM'):
+        return '06:00'
+    if (x == '07:00' and y == 'AM'):
+        return '07:00'
+    if (x == '08:00' and y == 'AM'):
+        return '08:00'
+    if (x == '09:00' and y == 'AM'):
+        return '09:00'
+    if (x == '10:00' and y == 'AM'):
+        return '10:00'
+    if (x == '11:00' and y == 'AM'):
+        return '11:00'
+    if (x == '12:00' and y == 'AM'):
+        return '12:00'
+    if (x == '01:00' and y == 'PM'):
+        return '13:00'
+    if (x == '02:00' and y == 'PM'):
+        return '14:00'
+    if (x == '03:00' and y == 'PM'):
+        return '15:00'
+    if (x == '04:00' and y == 'PM'):
+        return '16:00'
+    if (x == '05:00' and y == 'PM'):
+        return '17:00'
+    if (x == '06:00' and y == 'PM'):
+        return '18:00'
+    if (x == '07:00' and y == 'PM'):
+        return '19:00'
+    if (x == '08:00' and y == 'PM'):
+        return '20:00'
+    if (x == '09:00' and y == 'PM'):
+        return '21:00'
+    if (x == '10:00' and y == 'PM'):
+        return '22:00'
+    if (x == '11:00' and y == 'PM'):
+        return '23:00'
+    if (x == '12:00' and y == 'PM'):
+        return '24:00'
+
+def mensagem_comunicado_geral():
+    con = MySQLdb.connect(host="127.0.0.1", user="bot", passwd="#Bot123", db="bot")
+    cursor = con.cursor()
+    mensagem = ''
+    utcmoment_naive = datetime.utcnow()
+    utcmoment = utcmoment_naive.replace(tzinfo=pytz.utc)
+    localDatetime = utcmoment.astimezone(pytz.timezone('America/Sao_Paulo'))
+    data_e_hora_atuais = localDatetime
+    cursor.execute("SELECT mensagem,data_envio,horas,periodo FROM bot.mybot_comunicado_geral A join bot.mybot_periodo B on A.periodo_id = B.id join bot.mybot_lista_horas C on A.hora_envio_id = C.id")
+    resposta = cursor.fetchall()
+    data_e_hora_em_texto = data_e_hora_atuais.strftime('%H:00')
+    for i in resposta:
+        if(i[1]==datetime.now().date()):
+            if(conversor_hora(i[2],i[3])==data_e_hora_em_texto):
+                mensagem = i[0]
+    con.commit()
+    con.close()
+    return mensagem
+
+def todos_os_usuarios():
+    con = MySQLdb.connect(host="127.0.0.1", user="bot", passwd="#Bot123", db="bot")
+    cursor = con.cursor()
+    usuario = []
+    cursor.execute("SELECT distinct id FROM bot.mybot_usuario")
+    resposta = cursor.fetchall()
+    for i in resposta:
+        usuario.append(i[0])
+    con.commit()
+    con.close()
+    return usuario
