@@ -31,8 +31,11 @@ def mysql_save(dic):
     session.set_keyspace('bot')
     qtd = len(dic['usuario']) - 1
     while (qtd != -1):
-        cursor.execute("INSERT INTO bot.mybot_mdc_mineracao_dados_cassandra(id_user,json_dados) value (%s,'%s')" %(dic['usuario'][qtd],dic['json'][qtd]))
-        session.execute("delete from cf_conversation_flow where cf_id = %s" % (dic['id'][qtd]))
+        try:
+            cursor.execute("INSERT INTO bot.mybot_mdc_mineracao_dados_cassandra(id_user,json_dados) value (%s,'%s')" %(dic['usuario'][qtd],dic['json'][qtd]))
+            session.execute("delete from cf_conversation_flow where cf_id = %s" % (dic['id'][qtd]))
+        except:
+            pass
         qtd = qtd - 1
         con.commit()
     con.close()
@@ -41,7 +44,8 @@ def mysql_save(dic):
     cluster.shutdown()
     session.shutdown()
 
-
+mysql_save(get())
+'''
 con = MySQLdb.connect(host="127.0.0.1", user="bot", passwd="#Bot123", db="bot")
 cursor = con.cursor()
 cursor.execute("select id_user,json_dados,id from bot.mybot_mdc_mineracao_dados_cassandra")
@@ -50,6 +54,9 @@ for j in resultado:
     js = json.loads(j[1])
     id = j[2]
     i = js['entry'][0]['messaging'][0]
+    print(js)
+    print('---------------------------------------------------------')
+    print(i)
     if ('message' in i.keys() and 'sender' in i.keys() and 'recipient' in i.keys() and 'timestamp' in i.keys()) and (
             'is_echo' not in i['message'].keys() and 'app_id' not in i['message'].keys() and 'sticker_id' not in i[
         'message'].keys() and 'attachments' not in i['message'].keys()):
@@ -102,4 +109,4 @@ for j in resultado:
         con.commit()
     cursor.execute("DELETE FROM bot.mybot_mdc_mineracao_dados_cassandra WHERE ID = %s" %(id))
     con.commit()
-con.close()
+con.close()'''

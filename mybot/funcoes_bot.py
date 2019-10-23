@@ -405,6 +405,27 @@ def bater_ponto(fbid, recevied_message):
                 usuario_cargo.save()
                 fb.quick_reply_message("Que horas você costuma chegar???", lista_horas)
                 return
+            if (recevied_message == 'CLT-40 Hrs sem.'):
+                cargo = Cargo.objects.get(nome='CLT-40 Hrs sem.')
+
+                usuario_cargo.id_cargo = cargo
+                usuario_cargo.save()
+                fb.quick_reply_message("Que horas você costuma chegar???", lista_horas)
+                return
+            if (recevied_message == 'Estagiario'):
+                cargo = Cargo.objects.get(nome='Estagiario')
+
+                usuario_cargo.id_cargo = cargo
+                usuario_cargo.save()
+                fb.quick_reply_message("Que horas você costuma chegar???", lista_horas)
+                return
+            if (recevied_message == 'Aprendiz'):
+                cargo = Cargo.objects.get(nome='Aprendiz')
+
+                usuario_cargo.id_cargo = cargo
+                usuario_cargo.save()
+                fb.quick_reply_message("Que horas você costuma chegar???", lista_horas)
+                return
             else:
                 cargo = []
                 c = Cargo.objects.all()
