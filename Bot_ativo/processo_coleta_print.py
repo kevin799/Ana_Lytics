@@ -9,12 +9,13 @@ con = MySQLdb.connect(host="127.0.0.1", user="bot", passwd="#Bot123", db="bot")
 cursor = con.cursor()
 cursor.execute("SELECT enviado,usuario_id,MAX(A.id)id FROM mybot_confirmacao_relatorio A join bot.mybot_imagem_relatorio B ON A.imagem_id = B.id join bot.mybot_usuario C ON A.usuario_id = C.id join bot.mybot_role D ON C.role_id = D.id join bot.mybot_area E on C.area_id = E.id where B.descricao = 'Painel de bordo' and B.data = (select max(data) from bot.mybot_imagem_relatorio) and role = 'ADMIN' and setor = 'ANALYTICS' group by enviado,usuario_id")
 resposta =cursor.fetchall()
+hora = None
 lista = {'enviado':[],'usuario':[]}
 for i in resposta:
     lista['enviado'].append(i[0])
     lista['usuario'].append(i[1])
 print(lista)
-cursor.execute("SELECT data FROM bot.mybot_imagem_relatorio WHERE data = (select max(data) from bot.mybot_imagem_relatorio) and descricao ='Painel de bordo'")
+cursor.execute("SELECT data FROM bot.mybot_imagem_relatorio WHERE data = (select max(data) from bot.mybot_imagem_relatorio WHERE descricao ='Painel de bordo') and descricao ='Painel de bordo'")
 resposta =cursor.fetchall()
 for i in resposta:
     print(i)
